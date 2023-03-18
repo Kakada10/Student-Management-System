@@ -13,12 +13,14 @@ export default function Featured() {
         flexDirection="column"
         display="flex"
         padding="20px"
-        width='50%'
+        width='30%'
+        bgcolor='#013914'
+        color='white'
         
       >
         <Typography variant="h6" alignContent='center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab non quae aliquam illum ratione at optio voluptates quam, impedit doloribus architecto accusamus blanditiis aut, distinctio iusto! Rerum asperiores natus ullam.</Typography>
       </Box>
-      <Box component="div" height='100%'  mr='-1' bgcolor='red'>
+      <Box component="div" height='100%'  mr='-1' width='100%'>
         <img
           alt=""
           width='100%'

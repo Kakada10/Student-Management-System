@@ -1,4 +1,4 @@
-import { Avatar, Box, Link } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
 import { borderRadius } from '@mui/system';
 import React from 'react';
 

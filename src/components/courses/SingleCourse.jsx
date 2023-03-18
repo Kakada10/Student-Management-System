@@ -3,15 +3,19 @@ import React from 'react';
 import Navbar from '../navbar/Navbar';
 import { BiChevronLeft } from 'react-icons/bi';
 import { courses } from '../../variable/constrant';
-import { NavLink, useParams } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 export default function SingleCourse() {
   const { id } = useParams();
-  console.log(id);
+  const navigate = useNavigate();
+  function navigateHandler(id) {
+    navigate(`/course/student-list/${id}`);
+  }
   const { image, course_name, creator } = courses[id];
 
   return (
     <Box component="div">
       <Navbar />
+
       <Box component="div" mt="20px" display="flex">
         <BiChevronLeft size="2rem" />
         <Box
@@ -49,12 +53,16 @@ export default function SingleCourse() {
             Lecturer by {creator}
           </Typography>
           <Box component="div" mt="110px" display="flex">
-            <Button mt="50px" variant="outlined">
+            <Button
+              onClick={() => navigateHandler(id)}
+              mt="50px"
+              variant="outlined"
+            >
               List student
             </Button>
             <Box component="div" ml="10px">
               <Button variant="contained" color="success">
-                List session
+                <Link style={{ textDecoration: 'none', color: 'white' }} to={`/course/session-list/${id}`}>List session</Link>
               </Button>
             </Box>
           </Box>

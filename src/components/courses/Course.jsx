@@ -1,8 +1,7 @@
-import { Box, Button, Grid, Link, Typography } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { courses } from '../../variable/constrant';
-// const coursesList =
 export default function Course() {
   const navigate = useNavigate();
   function navigateHandler(index) {
@@ -40,9 +39,20 @@ export default function Course() {
                 {course.creator}
               </Box>
             </Box>
-            <Button onClick={()=>navigateHandler(index)} variant="outlined">
-              See detail
-            </Button>
+            <Box
+              component="div"
+              mt="20px"
+              justifyContent="center"
+              display="flex"
+            >
+              <Button
+                onClick={() => navigateHandler(index)}
+                variant="contained"
+                color="warning"
+              >
+                See detail
+              </Button>
+            </Box>
           </Grid>
         </Box>
       ))}
