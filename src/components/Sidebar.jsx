@@ -16,10 +16,10 @@ import image from './asssets';
 import { Box } from '@mui/material';
 import React, { createContext, useEffect, useState } from 'react';
 import { MenuConstants } from './constants/menu';
-import { useLocation, useNavigate } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { checkIsActive } from './utils/functions';
 import { getCurrentUrl } from './utils/functions';
-import { BiMenu } from 'react-icons/bi';
+
 import { HiOutlineMenuAlt1 } from 'react-icons/hi';
 
 const SidebarContext = createContext('SidebarContext');
@@ -28,7 +28,8 @@ export default function Sidebar() {
   const [toggle, setToggle] = useState(false);
   const [collapse, setCollapse] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const history = useHistory();
 
   const getMenuItemActive = (url) => {
     if (location.key && location.pathname !== '/') {
@@ -52,10 +53,11 @@ export default function Sidebar() {
         w="full"
         h="full"
         direction="column"
-        borderRightWidth="1px"
-        bgColor='blue'
+        // bg="lightblue"
+        style={{ borderRight: "1px solid #e0e0e0" }}
+        // borderRightWidth="10px"
         transition="width 0.1s"
-        width={`${toggle ? '68px' : '100%'}`}
+        width={`${toggle ? '45px' : '100%'}`}
       >
         <Flex
           overflow="hidden"
@@ -81,9 +83,11 @@ export default function Sidebar() {
               pos="absolute"
               top="0"
               left="0"
+              color="teal"
+              cursor="pointer"
+              border="1px solid transparent"
               onClick={() => setToggle(!toggle)}
               icon={<HiOutlineMenuAlt1 size="1.5rem" />}
-
             />
             <Box>
               <Fade in={!collapse}>
@@ -119,13 +123,14 @@ export default function Sidebar() {
                       <Fade in={!collapse}>{name}</Fade>
                     </Text>
                     <Stack>
-                      {item?.map(({ id, name, icon, path }) => (
+                      {item.map(({ id, name, icon, path }) => (
                         <NavLink
                           key={id}
                           collapse={collapse}
                           isActive={getMenuItemActive(path)}
                           onClick={() => {
-                            path !== getCurrentUrl(location) && navigate(path);
+                            path !== getCurrentUrl(location) &&
+                              history.push(path);
                           }}
                           icon={icon}
                           label={name}
@@ -134,6 +139,7 @@ export default function Sidebar() {
                     </Stack>
                   </React.Fragment>
                 ))}
+
                 <Divider bg="gray.100" rounded="md" />
               </Stack>
               <Spacer />
@@ -152,25 +158,27 @@ const NavLink = (props) => {
       display="block"
       py="2"
       px="3"
+      height="30px"
       width="full"
       minW="max-content"
-      borderRadius="md"
+      borderRadius="6px"
       transition="all 0.1s"
       fontWeight="medium"
       userSelect="none"
+      cursor="pointer"
       aria-current={isActive ? 'page' : undefined}
       color="gray.600"
       _hover={{
-        bg: 'brand.500',
+        bg: 'teal',
         color: 'white',
       }}
       _activeLink={{
-        bg: 'brand.500',
+        bg: 'teal',
         color: 'white',
       }}
       {...rest}
     >
-      <HStack h="20px" spacing="5">
+      <HStack mt="5px" h="20px" spacing="5">
         <Box fontSize="lg">{icon}</Box>
         {!collapse && (
           <Text as="span" fontWeight={'bold'}>

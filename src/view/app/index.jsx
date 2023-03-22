@@ -1,37 +1,38 @@
-import { Box, Flex, Switch } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { Route, useLocation } from 'react-router';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
-// import Course from './setting/course';
-// import Student from './setting/student';
-// import Teacher from './setting/teacher';
 
-const DelayImport = (path) => {
-  return React.lazy(() => {
-    return Promise.all([
-      path,
-      new Promise((resolve) => setTimeout(resolve, 3000)),
-    ]).then(([moduleExports]) => moduleExports);
-  });
-};
+// const DelayImport = (path) => {
+//   return React.lazy(() => {
+//     return Promise.all([
+//       path,
+//       new Promise((resolve) => setTimeout(resolve, 300)),
+//     ]).then(([moduleExports]) => moduleExports);
+//   });
+// };
 
-const Student = DelayImport(import('./setting/student'))
-const Teacher = DelayImport(import('./setting/teacher'))
-const Course = DelayImport(import('./setting/course'))
+// const Student = DelayImport(import('./setting/student'));
+// const Teacher = DelayImport(import('./setting/teacher'));
+// const Course = DelayImport(import('./setting/course'));
+
+import Student from './setting/student';
+import Teacher from './setting/teacher';
+import Course from './setting/course';
 
 const routeItem = [
   {
     path: '/student',
-    component: <Student />,
+    element: <Student />,
   },
   {
     path: '/teacher',
-    component: <Teacher />,
+    element: <Teacher />,
   },
   {
     path: '/course',
-    component: <Course />,
+    element: <Course />,
   },
 ];
 
@@ -44,16 +45,10 @@ export default function App() {
       <Box display="flex" w="250px">
         <Sidebar />
       </Box>
-      <Box
-        w={'calc(100% - 18rem)'}
-        bgColor="yellow"
-        p="2"
-        position="relative"
-        flex="1"
-      >
+      <Box w={'calc(100% - 18rem)'} p="10" position="relative" flex="1">
         <AnimatePresence>
           <Switch location={location} key={location.pathname}>
-            {routeItem.map(({ path, component }) => {
+            {routeItem.map(({ path, element }) => (
               <Route key={path} path={path}>
                 <MotionBox
                   h="full"
@@ -76,10 +71,10 @@ export default function App() {
                     transition: { duration: 0.15 },
                   }}
                 >
-                  {component}
+                  {element}
                 </MotionBox>
-              </Route>;
-            })}
+              </Route>
+            ))}
           </Switch>
         </AnimatePresence>
       </Box>

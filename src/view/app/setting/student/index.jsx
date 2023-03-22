@@ -1,11 +1,18 @@
 import List from './List';
-import { Route, Routes, useMatch } from 'react-router-dom';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 
 export default function Student() {
-  const { url } = useMatch();
+  const { url } = useRouteMatch();
+
+  console.log('Hello');
   return (
-    <Routes>
-      <Route path={`${url}/list`} element={<List />} />
-    </Routes>
+    <Box>
+      {/* <Switch>
+        <Route path={`${url}/list`} component={List} />
+        <Redirect to={`${url}/list`} /> :
+      </Switch> */}
+      <List/>
+    </Box>
   );
 }
