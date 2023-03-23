@@ -1,0 +1,38 @@
+[
+    {
+        "id" : 1,
+        "name" : "Cloud Computing",
+        "year" : 4,
+        "semester" : 1
+    },
+    {
+        "id" : 1,
+        "name" : "Networking",
+        "year" : 4,
+        "semester" : 1
+    },
+    {
+        "id" : 1,
+        "name" : "Machine Learning",
+        "year" : 4,
+        "semester" : 1
+    },
+    {
+        "id" : 1,
+        "name" : "Database",
+        "year" : 4,
+        "semester" : 1
+    },
+    {
+        "id" : 1,
+        "name" : "Cloud Computing",
+        "year" : 4,
+        "semester" : 1
+    },
+    {
+        "id" : 1,
+        "name" : "Cloud Computing",
+        "year" : 4,
+        "semester" : 1
+    }
+]

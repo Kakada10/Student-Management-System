@@ -53,11 +53,9 @@ export default function Sidebar() {
         w="full"
         h="full"
         direction="column"
-        // bg="lightblue"
-        style={{ borderRight: "1px solid #e0e0e0" }}
-        // borderRightWidth="10px"
+        style={{ borderRight: '1px solid #e0e0e0' }}
         transition="width 0.1s"
-        width={`${toggle ? '45px' : '100%'}`}
+        width={`${toggle ? '45px' : '250px'}`}
       >
         <Flex
           overflow="hidden"
@@ -118,13 +116,14 @@ export default function Sidebar() {
                       fontWeight="semibold"
                       textTransform="uppercase"
                       letterSpacing="widest"
-                      color="gray.500"
+                      color="#9e9e9e"
                     >
                       <Fade in={!collapse}>{name}</Fade>
                     </Text>
                     <Stack>
                       {item.map(({ id, name, icon, path }) => (
                         <NavLink
+                          color="#546e7a"
                           key={id}
                           collapse={collapse}
                           isActive={getMenuItemActive(path)}

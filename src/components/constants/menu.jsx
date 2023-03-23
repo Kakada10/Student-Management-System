@@ -6,19 +6,19 @@ export const MenuConstants = [
       {
         id: 'teachers',
         name: 'Teacher',
-        path: 'teacher',
+        path: '/teacher',
         icon: <BiMale />,
       },
       {
         id: 'students',
         name: 'Student',
-        path: 'student',
+        path: '/student',
         icon: <BiChild />,
       },
       {
         id: 'courses',
         name: 'Course',
-        path: 'course',
+        path: '/course',
         icon: <BiBook />,
       },
     ],

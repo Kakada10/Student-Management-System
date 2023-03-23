@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Grid, HStack, IconButton } from '@chakra-ui/react';
-import { FormControl, styled, TextField } from '@mui/material';
+import { styled, TextField } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
+import MOCK_DATA from '../table/MOCK_DATA.json';
+import { useHistory, useLocation } from 'react-router-dom';
 // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
@@ -27,30 +29,36 @@ const CssTextField = styled(TextField)({
 });
 
 export default function List() {
-  const columns = useMemo(() => [
-    {
-      Header: 'ID',
-      accessor: 'n',
-    },
-    {
-      Header: 'First Name',
-      accessor: 'first_name',
-    },
-    {
-      Header: 'Last Name',
-      accessor: 'last_name',
-    },
-    {
-      Header: 'Year',
-      accessor: 'year',
-    },
-    {
-      Header: 'Group',
-      accessor: 'group',
-    },
-  ]);
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const parentUrl = `/${pathname.split('/')[1]}`;
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+      {
+        Header: 'First Name',
+        accessor: 'first_name',
+      },
+      {
+        Header: 'Last Name',
+        accessor: 'last_name',
+      },
+      {
+        Header: 'Year',
+        accessor: 'year',
+      },
+      {
+        Header: 'Group',
+        accessor: 'group',
+      },
+    ],
+    []
+  );
 
-  const [filter, setFilter] = useState({ searchText: '' });
+  const [, setFilter] = useState({ searchText: '' });
 
   return (
     <Flex flexDir="column" bg="white" h="full" rounded="md">
@@ -106,6 +114,7 @@ export default function List() {
               color="white"
               leftIcon={<BiAddToQueue fontSize="1.5rem" />}
               colorScheme="brand"
+              onClick={() => history.push(`${parentUrl}/add`)}
             >
               Add
             </Button>
@@ -113,7 +122,7 @@ export default function List() {
         </Grid>
       </Grid>
       <Box mt="10px" flex="1" overflow="auto">
-        <Pagination />
+        <Pagination columns={columns} data={MOCK_DATA} />
       </Box>
     </Flex>
   );
