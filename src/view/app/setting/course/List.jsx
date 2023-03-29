@@ -1,10 +1,21 @@
-import { Box, Button, Flex, Grid, HStack, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Grid,
+  HStack,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { styled, TextField } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
 import COURSE from '../table/COURSE.json';
 import { useHistory, useLocation } from 'react-router-dom';
+import { MdRemoveRedEye } from 'react-icons/md';
+import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 
 const CssTextField = styled(TextField)({
   marginTop: '10px',
@@ -32,6 +43,9 @@ export default function List() {
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
 
+  const { onOpen: onDeleteModalOpen } = useDisclosure();
+  const [selected, setSelected] = useState('');
+
   const columns = useMemo(
     () => [
       {
@@ -50,6 +64,47 @@ export default function List() {
       {
         Header: 'Semester',
         accessor: 'semester',
+      },
+      {
+        Header: 'Action',
+        Cell: ({ row: { original } }) => (
+          <Center spacing={2} gap="6" justifyContent='left'>
+            <IconButton
+              onClick={() => history.push(`${parentUrl}/add`)}
+              variant="ghost"
+              color="#78909c"
+              cursor="pointer"
+              size="sm"
+              bg="none"
+              border="none"
+              icon={<MdRemoveRedEye size="1.3rem" />}
+            />
+
+            <IconButton
+              onClick={() => history.push(`${parentUrl}/add`)}
+              variant="ghost"
+              cursor="pointer"
+              color="#78909c"
+              border="none"
+              bg="none"
+              size="sm"
+              icon={<HiOutlinePencilAlt size="1.3rem" />}
+            />
+            <IconButton
+              onClick={() => {
+                setSelected(original);
+                onDeleteModalOpen();
+              }}
+              size="sm"
+              variant="ghost"
+              cursor="pointer"
+              border="none"
+              bg="none"
+              color="#78909c"
+              icon={<HiOutlineTrash size="1.3rem" />}
+            />
+          </Center>
+        ),
       },
     ], //eslint-disable-next-line
     []

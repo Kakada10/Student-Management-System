@@ -1,10 +1,21 @@
-import { Box, Button, Flex, Grid, HStack, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Grid,
+  HStack,
+  IconButton,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { styled, TextField } from '@mui/material';
 import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
 import MOCK_DATA from '../table/MOCK_DATA.json';
 import { useHistory, useLocation } from 'react-router-dom';
+import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
+import { MdRemoveRedEye } from 'react-icons/md';
 // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
@@ -29,8 +40,12 @@ const CssTextField = styled(TextField)({
 });
 
 export default function List() {
+  const [selected, setSelected] = useState('');
+
   const history = useHistory();
   const { pathname } = useLocation();
+  const { onOpen: onDeleteModalOpen } = useDisclosure();
+
   const parentUrl = `/${pathname.split('/')[1]}`;
   const columns = useMemo(
     () => [
@@ -53,6 +68,47 @@ export default function List() {
       {
         Header: 'Group',
         accessor: 'group',
+      },
+      {
+        Header: 'Action',
+        Cell: ({ row: { original } }) => (
+          <Center spacing={2} gap="6" justifyContent='left'>
+            <IconButton
+              onClick={() => history.push(`${parentUrl}/add`)}
+              variant="ghost"
+              color="#78909c"
+              cursor="pointer"
+              bg="none"
+              size="sm"
+              border="none"
+              icon={<MdRemoveRedEye size="1.3rem" />}
+            />
+
+            <IconButton
+              onClick={() => history.push(`${parentUrl}/add`)}
+              variant="ghost"
+              cursor="pointer"
+              color="#78909c"
+              border="none"
+              bg="none"
+              size="sm"
+              icon={<HiOutlinePencilAlt size="1.3rem" />}
+            />
+            <IconButton
+              onClick={() => {
+                setSelected(original);
+                onDeleteModalOpen();
+              }}
+              size="sm"
+              variant="ghost"
+              cursor="pointer"
+              border="none"
+              bg="none"
+              color="#78909c"
+              icon={<HiOutlineTrash size="1.3rem" />}
+            />
+          </Center>
+        ),
       },
     ],
     []

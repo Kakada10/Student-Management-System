@@ -1,6 +1,8 @@
+import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { Box } from '@mui/system';
 import React from 'react';
 import { usePagination, useTable } from 'react-table';
+import { Spinner } from '../../../../components/loader';
 // import {COLUMNS} from './columns'
 // import MOCK_DATA from './MOCK_DATA.json'
 import './table.css';
@@ -38,41 +40,76 @@ export default function Pagination({ columns, data }) {
   const { pageIndex, pageSize } = state;
 
   return (
-    <>
-      <table {...getTableProps()}>
-        <thead>
+    <Box pos="relative" h="full">
+      <Table
+        h="max-content"
+        overflow="auto"
+        size="sm"
+        variant="simple"
+        {...getTableProps()}
+      >
+        <Thead
+          h="4"
+          maxH="4"
+          minH="4"
+          zIndex="2"
+          pos="sticky"
+          top="0"
+          bg="gray.50"
+        >
           {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps}>{column.render('Header')}</th>
+                <Th
+                  textAlign="left"
+                  py="4"
+                  {...column.getHeaderProps}
+                  fontFamily=" sans-serif"
+                  fontSize="md"
+                >
+                  {column.render('Header')}
+                </Th>
               ))}
-            </tr>
+            </Tr>
           ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
+        </Thead>
+        <Tbody fontSize="sm" {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <Tr
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                cursor="pointer"
+                _hover={{ bg: 'gray.50' }}
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                    <Td
+                      py="2"
+                      style={{ cursor: 'default' }}
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render('Cell')}
+                    </Td>
                   );
                 })}
-              </tr>
+              </Tr>
             );
           })}
-        </tbody>
-      </table>
-      <Box component="div" m="10px 10px">
+        </Tbody>
+      </Table>
+      {/* <Box component="div" m="10px 10px">
         <span>
           Page{' '}
           <strong>
             {pageIndex + 1} of {pageOptions.length}
-          </strong>{' '}
+          </strong>
         </span>
         <span>
-          | Go to page:{' '}
+          | Go to page:
           <input
             type="number"
             defaultValue={pageIndex + 1}
@@ -107,7 +144,7 @@ export default function Pagination({ columns, data }) {
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
         </button>
-      </Box>
-    </>
+      </Box> */}
+    </Box>
   );
 }
