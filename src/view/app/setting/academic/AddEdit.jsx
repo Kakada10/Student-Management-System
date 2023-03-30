@@ -9,7 +9,6 @@ import {
   OutlinedInput,
   Radio,
   RadioGroup,
-  styled,
   TextField,
 } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -18,31 +17,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { BiAddToQueue } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
-
-const CssTextField = styled(TextField)({
-  '& label': {
-    color: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#b0bec5',
-    },
-    '&:hover fieldset': {
-      borderColor: '#40c4ff',
-    },
-  },
-});
-
-const CssOutlinedInput = styled(FormControl)({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#b0bec5',
-    },
-    '&:hover fieldset': {
-      borderColor: '#40c4ff',
-    },
-  },
-});
 
 export default function AddEdit() {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,7 +41,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" fontWeight="bold">
-            Create student
+            Create teacher
           </Text>
         </Grid>
         <Grid>
@@ -96,31 +70,27 @@ export default function AddEdit() {
         </Grid>
         <Grid gap="4" p="3">
           <VStack spacing="25" alignItems="start">
-            <CssTextField
+            <TextField
               sx={{ width: 350 }}
+              required
               label="First name"
-              id="custom-css-outlined-input"
+              id="outlined-size-small"
               size="small"
             />
-            <CssTextField
+            <TextField
               sx={{ width: 350 }}
+              required
               label="Last name"
               id="outlined-size-small"
               size="small"
             />
-            <CssTextField
-              sx={{ width: 350, borderColor: 'red' }}
+            <TextField
+              sx={{ width: 350 }}
+              required
               label="ID"
               id="outlined-size-small"
               size="small"
             />
-             <CssTextField
-              sx={{ width: 350, borderColor: 'red' }}
-              label="Group"
-              id="outlined-size-small"
-              size="small"
-            />
-
 
             <FormControl>
               <FormLabel id="demo-row-radio-buttons-group-label">
@@ -128,45 +98,45 @@ export default function AddEdit() {
               </FormLabel>
               <RadioGroup
                 size="small"
+                required
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
-                  sx={{ color: '#9e9e9e', fontWeight: '4' }}
+                  size="small"
                   value="female"
                   control={<Radio />}
                   label="Female"
                 />
                 <FormControlLabel
-                  sx={{ color: '#9e9e9e' }}
                   value="male"
                   control={<Radio />}
                   label="Male"
                 />
               </RadioGroup>
             </FormControl>
-            <CssTextField
+            <TextField
               sx={{ width: 350 }}
-              label="Gmail"
+              required
+              label="gmail"
               id="outlined-size-small"
               size="small"
             />
-            <CssTextField
+            <TextField
               sx={{ width: 350 }}
               label="Phone number"
+              required
               id="outlined-size-small"
               size="small"
             />
-            <CssOutlinedInput
+            <FormControl
               sx={{ m: 1, width: 350 }}
+              required
               size="small"
               variant="outlined"
             >
-              <InputLabel
-                sx={{ color: '#bdbdbd' }}
-                htmlFor="outlined-adornment-password"
-              >
+              <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>
               <OutlinedInput
@@ -186,10 +156,61 @@ export default function AddEdit() {
                 }
                 label="Password"
               />
-            </CssOutlinedInput>
+            </FormControl>
           </VStack>
         </Grid>
       </Grid>
     </Box>
   );
 }
+
+
+// import * as React from 'react';
+// import { DataGrid } from '@mui/x-data-grid';
+
+// const columns = [
+//   { field: 'id', headerName: 'ID', width: 70 },
+//   { field: 'firstName', headerName: 'First name', width: 130 },
+//   { field: 'lastName', headerName: 'Last name', width: 130 },
+//   {
+//     field: 'age',
+//     headerName: 'Age',
+//     type: 'number',
+//     width: 90,
+//   },
+//   {
+//     field: 'fullName',
+//     headerName: 'Full name',
+//     description: 'This column has a value getter and is not sortable.',
+//     sortable: false,
+//     width: 160,
+//     valueGetter: (params) =>
+//       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+//   },
+// ];
+
+// const rows = [
+//   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
+//   { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
+//   { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
+//   { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
+//   { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
+//   { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
+//   { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
+//   { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
+//   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+// ];
+
+// export default function AddEdit() {
+//   return (
+//     <div style={{ height: 400, width: '100%' }}>
+//       <DataGrid
+//         rows={rows}
+//         columns={columns}
+//         pageSize={5}
+//         rowsPerPageOptions={[5]}
+//         checkboxSelection
+//       />
+//     </div>
+//   );
+// }

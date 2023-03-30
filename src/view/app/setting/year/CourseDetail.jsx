@@ -8,85 +8,64 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  styled,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { useMemo, useState } from 'react';
-import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-import { useHistory, useLocation } from 'react-router-dom';
-// import { InfiniteScroll } from '../../../../components/Tables';
+import { ButtonGroup, styled, TextField } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { BiChevronLeft, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
-import YEAR from '../table/YEAR.json';
+import COURSE from '../table/COURSE.json';
+import { useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
+import { color } from 'framer-motion';
+// import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
   marginTop: '10px',
-  marginLeft: '10px',
-  width: '100px',
-  '& label': {
-    color: '#bdbdbd',
-  },
   '& label.Mui-focused': {
-    color: '#0288d1',
+    color: 'green',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#0288d1',
+    borderBottomColor: 'green',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: 'gray',
     },
     '&:hover fieldset': {
-      borderColor: 'tomato',
+      borderColor: 'yellow',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#0288d1',
+      borderColor: 'green',
     },
   },
 });
 
-const CssFormControl = styled(FormControl)({
-  '& label': {
-    color: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '&:hover fieldset': {
-      borderColor: 'tomato',
-    },
-  },
-});
-
-export default function List() {
-  const history = useHistory();
-  const { pathname } = useLocation();
-  const parentUrl = `/${pathname.split('/')[1]}`;
-  const [, setFilter] = useState({ searchText: '' });
-
-  const { onOpen: onDeleteModalOpen } = useDisclosure();
+export default function CourseDetail() {
   const [selected, setSelected] = useState('');
+  const [selectedButton, setSelectedButton] = useState('');
 
-  const [year, setYear] = useState('');
-
-  const handleChange = (event) => {
-    setYear(event.target.value);
+  const handleButtonClick = (button) => {
+    setSelectedButton(button);
   };
 
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const { onOpen: onDeleteModalOpen } = useDisclosure();
+
+  const parentUrl = `/${pathname.split('/')[1]}`;
   const columns = useMemo(
     () => [
+    //   {
+    //     Header: 'ID',
+    //     accessor: 'id',
+    //   },
       {
-        Header: 'ID',
-        accessor: 'id',
+        Header: 'Name',
+        accessor: 'name',
       },
       {
-        Name: 'Name',
-        accessor: 'name'
+        Name: 'Taught By',
+        accessor: 'taught_by',
       },
       {
         Header: 'Year',
@@ -123,9 +102,9 @@ export default function List() {
               }
               variant="ghost"
               cursor="pointer"
-              bg="none"
               color="#78909c"
               border="none"
+              bg="none"
               size="sm"
               icon={<HiOutlinePencilAlt size="1.3rem" />}
             />
@@ -136,9 +115,9 @@ export default function List() {
               }}
               size="sm"
               variant="ghost"
-              bg="none"
               cursor="pointer"
               border="none"
+              bg="none"
               color="#78909c"
               icon={<HiOutlineTrash size="1.3rem" />}
             />
@@ -149,6 +128,8 @@ export default function List() {
     //eslint-disable-next-line
     []
   );
+
+  const [, setFilter] = useState({ searchText: '' });
 
   return (
     <Flex flexDir="column" bg="white" h="full" rounded="md">
@@ -173,33 +154,10 @@ export default function List() {
           variant="standard"
           templateColumns="15vw max-content"
           gap="4"
-          display="flex"
         >
-          <Typography mt="15px">Student Year :</Typography>
-          <CssFormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small">Year</InputLabel>
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              value={year}
-              label="Year"
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-            </Select>
-          </CssFormControl>
           <CssTextField
             size="small"
-            label="Start"
-            id="custom-css-outlined-input"
-          />
-          <CssTextField
-            size="small"
-            label="End"
+            label="Search"
             id="custom-css-outlined-input"
           />
           <IconButton
@@ -211,11 +169,11 @@ export default function List() {
             border="1px solid transparent"
             borderRadius="8px"
             type="submit"
-            cursor="pointer"
             colorScheme="brand"
             icon={<BiSearchAlt2 fontSize="1.2rem" />}
           />
         </Grid>
+
         <Grid>
           <HStack h="40px" w="90px">
             <Button
@@ -226,17 +184,70 @@ export default function List() {
               border="1px solid transparent"
               bgColor="teal"
               color="white"
-              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+              leftIcon={<BiChevronLeft fontSize="1.5rem" />}
               colorScheme="brand"
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() => history.push(`${parentUrl}/list`)}
             >
-              Add
+              Back
             </Button>
           </HStack>
         </Grid>
+        <ButtonGroup
+          sx={{
+            gap: 1,
+            ml: '10px',
+            mt: '20px',
+            mb: '10px',
+            height: '3.5vh',
+          }}
+        >
+          <Button
+            style={{
+              color: 'white',
+              cursor: 'pointer',
+              borderRadius: 4,
+              border: 'none',
+              height: '4vh',
+              width: '5vw',
+              backgroundColor: selectedButton === 'One' ? '#2962ff' : '#90a4ae',
+            }}
+            onClick={() => handleButtonClick('One')}
+          >
+            All student
+          </Button>
+          <Button
+            style={{
+              color: 'white',
+              cursor: 'pointer',
+              borderRadius: 4,
+              border: 'none',
+              height: '4vh',
+              width: '6vw',
+              backgroundColor: selectedButton === 'Two' ? '#2962ff' : '#90a4ae',
+            }}
+            onClick={() => handleButtonClick('Two')}
+          >
+            All assignment
+          </Button>
+          <Button
+            style={{
+              color: 'white',
+              cursor: 'pointer',
+              borderRadius: 4,
+              border: 'none',
+              height: '4vh',
+              width: '5vw',
+              backgroundColor:
+                selectedButton === 'Three' ? '#2962ff' : '#90a4ae',
+            }}
+            onClick={() => handleButtonClick('Three')}
+          >
+            All session
+          </Button>
+        </ButtonGroup>
       </Grid>
       <Box mt="10px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={YEAR} />
+        <Pagination columns={columns} data={COURSE} />
       </Box>
     </Flex>
   );

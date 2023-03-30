@@ -22,43 +22,31 @@ import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
 // import { InfiniteScroll } from '../../../../components/Tables';
 import Pagination from '../table/Pagination';
-import YEAR from '../table/YEAR.json';
+import TEACHER_DATA from '../table/TEACHER_DATA.json';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
+
+
 
 const CssTextField = styled(TextField)({
   marginTop: '10px',
   marginLeft: '10px',
   width: '100px',
-  '& label': {
-    color: '#bdbdbd',
-  },
   '& label.Mui-focused': {
-    color: '#0288d1',
+    color: 'green',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: '#0288d1',
+    borderBottomColor: 'green',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: 'gray',
     },
     '&:hover fieldset': {
-      borderColor: 'tomato',
+      borderColor: 'yellow',
     },
     '&.Mui-focused fieldset': {
-      borderColor: '#0288d1',
-    },
-  },
-});
-
-const CssFormControl = styled(FormControl)({
-  '& label': {
-    color: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '&:hover fieldset': {
-      borderColor: 'tomato',
+      borderColor: 'green',
     },
   },
 });
@@ -85,29 +73,27 @@ export default function List() {
         accessor: 'id',
       },
       {
-        Name: 'Name',
-        accessor: 'name'
+        Header: 'First Name',
+        accessor: 'first_name',
       },
       {
-        Header: 'Year',
-        accessor: 'year',
+        Header: 'Last Name',
+        accessor: 'last_name',
       },
       {
-        Header: 'Start',
-        accessor: 'start',
+        Header: 'Email',
+        accessor: 'email',
       },
       {
-        Header: 'End',
-        accessor: 'end',
+        Header: 'Gender',
+        accessor: 'gender',
       },
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6" justifyContent="left">
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/view/${original.value}`)
-              }
+              onClick={() => history.push(`${parentUrl}/view/${original.value}`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -118,9 +104,7 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/edit/${original.value}`)
-              }
+              onClick={() => history.push(`${parentUrl}/edit/${original.value}`)}
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -176,7 +160,7 @@ export default function List() {
           display="flex"
         >
           <Typography mt="15px">Student Year :</Typography>
-          <CssFormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
+          <FormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
             <InputLabel id="demo-select-small">Year</InputLabel>
             <Select
               labelId="demo-select-small"
@@ -191,7 +175,7 @@ export default function List() {
               <MenuItem value={4}>4</MenuItem>
               <MenuItem value={5}>5</MenuItem>
             </Select>
-          </CssFormControl>
+          </FormControl>
           <CssTextField
             size="small"
             label="Start"
@@ -236,7 +220,7 @@ export default function List() {
         </Grid>
       </Grid>
       <Box mt="10px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={YEAR} />
+        <Pagination columns={columns} data={TEACHER_DATA} checkboxSelection />
       </Box>
     </Flex>
   );

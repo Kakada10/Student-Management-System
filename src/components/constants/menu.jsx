@@ -1,4 +1,4 @@
-import { BiBook, BiChild, BiMale } from 'react-icons/bi';
+import { BiBook, BiChild, BiIdCard, BiMale } from 'react-icons/bi';
 export const MenuConstants = [
   {
     name: 'List',
@@ -20,6 +20,12 @@ export const MenuConstants = [
         name: 'Course',
         path: '/course',
         icon: <BiBook />,
+      },
+      {
+        id: 'academic',
+        name: 'Academic',
+        path: '/academic',
+        icon: <BiIdCard />,
       },
     ],
   },

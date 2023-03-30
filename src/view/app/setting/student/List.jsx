@@ -47,6 +47,7 @@ export default function List() {
   const { onOpen: onDeleteModalOpen } = useDisclosure();
 
   const parentUrl = `/${pathname.split('/')[1]}`;
+
   const columns = useMemo(
     () => [
       {
@@ -72,9 +73,12 @@ export default function List() {
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
-          <Center spacing={2} gap="6" justifyContent='left'>
+          <Center spacing={2} gap="6" justifyContent="left">
+            {console.log(original.value)}
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() =>
+                history.push(`${parentUrl}/view/${original.apple}`)
+              }
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -85,7 +89,9 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() =>
+                history.push(`${parentUrl}/edit/${original.value}`)
+              }
               variant="ghost"
               cursor="pointer"
               color="#78909c"
@@ -111,6 +117,7 @@ export default function List() {
         ),
       },
     ],
+    //eslint-disable-next-line
     []
   );
 

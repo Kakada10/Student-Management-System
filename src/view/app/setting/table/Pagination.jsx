@@ -98,8 +98,10 @@ export default function Pagination({ columns, data }) {
                 })}
               </Tr>
             );
+            
           })}
         </Tbody>
+        
       </Table>
       {/* <Box component="div" m="10px 10px">
         <span>

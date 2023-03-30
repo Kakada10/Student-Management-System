@@ -32,6 +32,7 @@ const DelayImport = (path) => {
 const Student = DelayImport(import('./setting/student'));
 const Teacher = DelayImport(import('./setting/teacher'));
 const Course = DelayImport(import('./setting/course'));
+const Academic = DelayImport(import('./setting/academic'))
 
 const routeItem = [
   {
@@ -45,6 +46,10 @@ const routeItem = [
   {
     path: '/course',
     element: <Course />,
+  },
+  {
+    path: '/academic',
+    element: <Academic />,
   },
 ];
 

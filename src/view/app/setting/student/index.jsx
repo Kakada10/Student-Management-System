@@ -10,6 +10,8 @@ export default function Student() {
       <Switch>
         <Route path={`${url}/list`} component={List} />
         <Route path={`${url}/add`} component={AddEdit} />
+        <Route path={`${url}/view/:id`} component={AddEdit} />
+        <Route path={`${url}/edit/:id`} component={AddEdit} />
         <Redirect to={`${url}/list`} />
       </Switch>
     </Box>

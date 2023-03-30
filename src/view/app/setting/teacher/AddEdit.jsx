@@ -9,6 +9,7 @@ import {
   OutlinedInput,
   Radio,
   RadioGroup,
+  styled,
   TextField,
 } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -17,6 +18,31 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { BiAddToQueue } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
+
+const CssTextField = styled(TextField)({
+  '& label': {
+    color: '#bdbdbd',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#b0bec5',
+    },
+    '&:hover fieldset': {
+      borderColor: '#40c4ff',
+    },
+  },
+});
+
+const CssOutlinedInput = styled(FormControl)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#b0bec5',
+    },
+    '&:hover fieldset': {
+      borderColor: '#40c4ff',
+    },
+  },
+});
 
 export default function AddEdit() {
   const [showPassword, setShowPassword] = useState(false);
@@ -70,23 +96,20 @@ export default function AddEdit() {
         </Grid>
         <Grid gap="4" p="3">
           <VStack spacing="25" alignItems="start">
-            <TextField
+            <CssTextField
               sx={{ width: 350 }}
-              required
               label="First name"
-              id="outlined-size-small"
+              id="custom-css-outlined-input"
               size="small"
             />
-            <TextField
+            <CssTextField
               sx={{ width: 350 }}
-              required
               label="Last name"
               id="outlined-size-small"
               size="small"
             />
-            <TextField
-              sx={{ width: 350 }}
-              required
+            <CssTextField
+              sx={{ width: 350, borderColor: 'red' }}
               label="ID"
               id="outlined-size-small"
               size="small"
@@ -98,45 +121,45 @@ export default function AddEdit() {
               </FormLabel>
               <RadioGroup
                 size="small"
-                required
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
               >
                 <FormControlLabel
-                  size="small"
+                  sx={{ color: '#9e9e9e', fontWeight: '4' }}
                   value="female"
                   control={<Radio />}
                   label="Female"
                 />
                 <FormControlLabel
+                  sx={{ color: '#9e9e9e' }}
                   value="male"
                   control={<Radio />}
                   label="Male"
                 />
               </RadioGroup>
             </FormControl>
-            <TextField
+            <CssTextField
               sx={{ width: 350 }}
-              required
-              label="gmail"
+              label="Gmail"
               id="outlined-size-small"
               size="small"
             />
-            <TextField
+            <CssTextField
               sx={{ width: 350 }}
               label="Phone number"
-              required
               id="outlined-size-small"
               size="small"
             />
-            <FormControl
+            <CssOutlinedInput
               sx={{ m: 1, width: 350 }}
-              required
               size="small"
               variant="outlined"
             >
-              <InputLabel htmlFor="outlined-adornment-password">
+              <InputLabel
+                sx={{ color: '#bdbdbd' }}
+                htmlFor="outlined-adornment-password"
+              >
                 Password
               </InputLabel>
               <OutlinedInput
@@ -156,7 +179,7 @@ export default function AddEdit() {
                 }
                 label="Password"
               />
-            </FormControl>
+            </CssOutlinedInput>
           </VStack>
         </Grid>
       </Grid>
