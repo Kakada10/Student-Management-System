@@ -13,13 +13,13 @@ import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
 import MOCK_DATA from '../table/MOCK_DATA.json';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
 // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
-  marginTop: '10px',
+  // marginTop: '10px',
   '& label.Mui-focused': {
     color: 'green',
   },
@@ -41,7 +41,7 @@ const CssTextField = styled(TextField)({
 
 export default function List() {
   const [selected, setSelected] = useState('');
-
+  const { id } = useParams();
   const history = useHistory();
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
@@ -73,12 +73,10 @@ export default function List() {
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
-          <Center spacing={2} gap="6" justifyContent="left">
-            {console.log(original.value)}
+          <Center spacing={2} gap="6">
+            {console.log(id)}
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/view/${original.apple}`)
-              }
+              onClick={() => history.push(`${parentUrl}/view/${id}`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -124,7 +122,7 @@ export default function List() {
   const [, setFilter] = useState({ searchText: '' });
 
   return (
-    <Flex flexDir="column" bg="white" h="full" rounded="md">
+    <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -141,50 +139,61 @@ export default function List() {
           }));
         }}
       >
-        <Grid
-          ml="10px"
-          variant="standard"
-          templateColumns="15vw max-content"
-          gap="4"
+        <Box
+          borderRadius="8px"
+          h="60px"
+          display="flex"
+          flexDir="row"
+          justifyContent="space-between"
         >
-          <CssTextField
-            size="small"
-            label="Search"
-            id="custom-css-outlined-input"
-          />
-          <IconButton
+          <Grid
+            ml="10px"
             mt="10px"
-            color="white"
-            ml="5px"
-            bgColor="teal"
-            width="45px"
-            border="1px solid transparent"
-            borderRadius="8px"
-            type="submit"
-            colorScheme="brand"
-            icon={<BiSearchAlt2 fontSize="1.2rem" />}
-          />
-        </Grid>
-        <Grid>
-          <HStack h="40px" w="90px">
-            <Button
-              w="100%"
-              h="100%"
-              borderRadius="6px"
-              cursor="pointer"
-              border="1px solid transparent"
-              bgColor="teal"
+            variant="standard"
+            templateColumns="15vw max-content"
+            gap="4"
+          >
+            <CssTextField
+              size="small"
+              label="Search"
+              id="custom-css-outlined-input"
+            />
+            <IconButton
+              // mt="10px"
               color="white"
-              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+              ml="5px"
+              bgColor="teal"
+              h="40px"
+              width="45px"
+              border="1px solid transparent"
+              borderRadius="8px"
+              type="submit"
               colorScheme="brand"
-              onClick={() => history.push(`${parentUrl}/add`)}
-            >
-              Add
-            </Button>
-          </HStack>
-        </Grid>
+              icon={<BiSearchAlt2 fontSize="1.2rem" />}
+            />
+          </Grid>
+          <Grid mt="10px">
+            <HStack h="40px" w="90px" mr="10px">
+              <Button
+                // mt="20px"
+                w="100%"
+                h="100%"
+                borderRadius="6px"
+                cursor="pointer"
+                border="1px solid transparent"
+                bgColor="teal"
+                color="white"
+                leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+                colorScheme="brand"
+                onClick={() => history.push(`${parentUrl}/add`)}
+              >
+                Add
+              </Button>
+            </HStack>
+          </Grid>
+        </Box>
       </Grid>
-      <Box mt="10px" flex="1" overflow="auto">
+      <Box mt="10px" mb="20px" flex="1" overflow="auto">
         <Pagination columns={columns} data={MOCK_DATA} />
       </Box>
     </Flex>

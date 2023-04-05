@@ -50,6 +50,9 @@ export default function AddEdit() {
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
+  const isAddMode = pathname.split('/')[2] === 'add';
+  const isViewMode = pathname.split('/')[2] === 'view';
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -57,16 +60,16 @@ export default function AddEdit() {
   };
 
   return (
-    <Box bg="white" h="full" rounded="md">
+    <Box bg="white" h="full" borderRadius="10px">
       <Grid
         as="form"
+        m="10px"
         templateColumns="auto max-content"
         p="3"
-        mb="3"
         boxShadow="sm"
       >
-        <Grid templateColumns="max-content" gap="2" alignContent="center">
-          <Text ml="2" fontSize="lg" fontWeight="bold">
+        <Grid ml="2" templateColumns="max-content" gap="2" alignContent="center">
+          <Text fontSize="lg" fontWeight="bold">
             Create teacher
           </Text>
         </Grid>
@@ -95,7 +98,7 @@ export default function AddEdit() {
           </HStack>
         </Grid>
         <Grid gap="4" p="3">
-          <VStack spacing="25" alignItems="start">
+          <VStack spacing="25" mb='10px' alignItems="start">
             <CssTextField
               sx={{ width: 350 }}
               label="First name"

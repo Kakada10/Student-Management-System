@@ -19,7 +19,7 @@ import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
 
 const CssTextField = styled(TextField)({
-  marginTop: '10px',
+  // marginTop: '10px',
   '& label.Mui-focused': {
     color: 'green',
   },
@@ -43,7 +43,7 @@ export default function List() {
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
-  const [, setFilter] = useState({ searchText: '' });
+  const [filter, setFilter] = useState({ searchText: '' });
 
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const [selected, setSelected] = useState('');
@@ -73,9 +73,11 @@ export default function List() {
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
-          <Center spacing={2} gap="6" justifyContent="left">
+          <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() =>
+                history.push(`${parentUrl}/view/${original.value}`)
+              }
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -86,7 +88,9 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() =>
+                history.push(`${parentUrl}/edit/${original.value}`)
+              }
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -117,67 +121,79 @@ export default function List() {
   );
 
   return (
-    <Flex flexDir="column" bg="white" h="full" rounded="md">
+    <Flex flexDir="column" bgColor="white" borderRadius="10px" h="full">
       <Grid
         as="form"
         templateColumns="auto max-content"
-        p="3"
+        p="8"
         mb="3"
         boxShadow="sm"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          const formProps = Object.fromEntries(formData);
-          setFilter((prev) => ({
-            ...prev,
-            searchText: formProps.searchText,
-          }));
-        }}
       >
-        <Grid
-          ml="10px"
-          variant="standard"
-          templateColumns="15vw max-content"
-          gap="4"
+        <Box
+          borderRadius="8px"
+          h="60px"
+          display="flex"
+          flexDir="row"
+          justifyContent="space-between"
         >
-          <CssTextField
-            size="small"
-            label="Search"
-            id="custom-css-outlined-input"
-          />
-          <IconButton
+          <Grid
+            ml="10px"
             mt="10px"
-            color="white"
-            ml="5px"
-            bgColor="teal"
-            width="45px"
-            border="1px solid transparent"
-            borderRadius="8px"
-            type="submit"
-            colorScheme="brand"
-            icon={<BiSearchAlt2 fontSize="1.2rem" />}
-          />
-        </Grid>
-        <Grid>
-          <HStack h="40px" w="90px">
-            <Button
-              w="100%"
-              h="100%"
-              borderRadius="6px"
+            variant="standard"
+            templateColumns="15vw max-content"
+            gap="4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const formProps = Object.fromEntries(formData);
+              setFilter((prev) => ({
+                ...prev,
+                searchText: formProps.searchText,
+              }));
+            }}
+          >
+            <CssTextField
+              size="small"
+              label="Search"
+              id="custom-css-outlined-input"
+            />
+            <IconButton
+              // mt="10px"
+              color="white"
+              ml="5px"
+              bgColor="teal"
+              h="40px"
+              width="45px"
               cursor="pointer"
               border="1px solid transparent"
-              bgColor="teal"
-              color="white"
-              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+              borderRadius="8px"
+              type="submit"
               colorScheme="brand"
-              onClick={() => history.push(`${parentUrl}/add`)}
-            >
-              Add
-            </Button>
-          </HStack>
-        </Grid>
+              icon={<BiSearchAlt2 fontSize="1.2rem" />}
+            />
+          </Grid>
+          <Grid mt="10px">
+            <HStack h="40px" w="90px" mr="10px">
+              <Button
+                // mt="20px"
+                w="100%"
+                h="100%"
+                borderRadius="6px"
+                cursor="pointer"
+                border="1px solid transparent"
+                bgColor="teal"
+                color="white"
+                leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+                colorScheme="brand"
+                onClick={() => history.push(`${parentUrl}/add`)}
+              >
+                Add
+              </Button>
+            </HStack>
+          </Grid>
+        </Box>
       </Grid>
-      <Box mt="10px" flex="1" overflow="auto">
+      <Box mt="10px" mb="20px" flex="1" overflow="auto">
         <Pagination columns={columns} data={TEACHER_DATA} />
       </Box>
     </Flex>

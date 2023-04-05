@@ -57,9 +57,10 @@ export default function AddEdit() {
   };
 
   return (
-    <Box bg="white" h="full" rounded="md">
+    <Box bg="white" h="full" borderRadius='10px'>
       <Grid
         as="form"
+        m='10px'
         templateColumns="auto max-content"
         p="3"
         mb="3"
@@ -95,7 +96,7 @@ export default function AddEdit() {
           </HStack>
         </Grid>
         <Grid gap="4" p="3">
-          <VStack spacing="25" alignItems="start">
+          <VStack spacing="25" mb='10px' alignItems="start">
             <CssTextField
               sx={{ width: 350 }}
               label="First name"

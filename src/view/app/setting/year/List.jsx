@@ -83,7 +83,7 @@ export default function List() {
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
-          <Center spacing={2} gap="6" justifyContent="left">
+          <Center spacing={2} gap="6">
             <IconButton
               onClick={() =>
                 history.push(`${parentUrl}/view/${original.value}/detail`)

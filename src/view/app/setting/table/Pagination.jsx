@@ -61,10 +61,9 @@ export default function Pagination({ columns, data }) {
             <Tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <Th
-                  textAlign="left"
                   py="4"
                   {...column.getHeaderProps}
-                  fontFamily=" sans-serif"
+                  fontFamily="sans-serif"
                   fontSize="md"
                 >
                   {column.render('Header')}
@@ -73,7 +72,7 @@ export default function Pagination({ columns, data }) {
             </Tr>
           ))}
         </Thead>
-        <Tbody fontSize="sm" {...getTableBodyProps()}>
+        <Tbody color='#78909c' fontSize="sm" {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
             return (
@@ -98,10 +97,8 @@ export default function Pagination({ columns, data }) {
                 })}
               </Tr>
             );
-            
           })}
         </Tbody>
-        
       </Table>
       {/* <Box component="div" m="10px 10px">
         <span>

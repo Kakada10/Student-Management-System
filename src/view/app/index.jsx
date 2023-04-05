@@ -14,8 +14,6 @@ import Sidebar from '../../components/Sidebar';
 // };
 import SplashScreen from '../../components/loader/SplashScreen';
 
-
-
 // import Student from './setting/student';
 // import Teacher from './setting/teacher';
 // import Course from './setting/course';
@@ -32,7 +30,7 @@ const DelayImport = (path) => {
 const Student = DelayImport(import('./setting/student'));
 const Teacher = DelayImport(import('./setting/teacher'));
 const Course = DelayImport(import('./setting/course'));
-const Academic = DelayImport(import('./setting/academic'))
+const Academic = DelayImport(import('./setting/academic'));
 
 const routeItem = [
   {
@@ -57,15 +55,15 @@ const MotionBox = motion(Box);
 
 export default function App() {
   const location = useLocation();
-  
+
   return (
     <Suspense fallback={<SplashScreen />}>
       <Flex position="relative" h="100vh" overflow="auto">
         <Box display="flex">
           <Sidebar />
         </Box>
-        <Box w={'calc(100% - 18rem)'} p="10" position="relative" flex="1">
-          <AnimatePresence mode='wait'>
+        <Box w={'calc(100% - 18rem)'} p="10" bgColor='#f0f5f8' position="relative" flex="1">
+          <AnimatePresence mode="wait">
             <Switch location={location} key={location.pathname}>
               {routeItem.map(({ path, element }) => (
                 <Route key={path} path={path}>

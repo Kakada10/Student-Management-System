@@ -91,7 +91,7 @@ export default function List() {
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
-          <Center spacing={2} gap="6" justifyContent="left">
+          <Center spacing={2} gap="6">
             <IconButton
               onClick={() => history.push(`${parentUrl}/view/${original.value}`)}
               variant="ghost"
@@ -135,7 +135,7 @@ export default function List() {
   );
 
   return (
-    <Flex flexDir="column" bg="white" h="full" rounded="md">
+    <Flex flexDir="column" borderRadius='10px' bg="white" h="full" >
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -200,8 +200,8 @@ export default function List() {
             icon={<BiSearchAlt2 fontSize="1.2rem" />}
           />
         </Grid>
-        <Grid>
-          <HStack h="40px" w="90px">
+        <Grid mt='10px'>
+          <HStack h="40px" w="90px" mr='10px'>
             <Button
               w="100%"
               h="100%"
@@ -219,7 +219,7 @@ export default function List() {
           </HStack>
         </Grid>
       </Grid>
-      <Box mt="10px" flex="1" overflow="auto">
+      <Box mt="10px" mb='20px' flex="1" overflow="auto">
         <Pagination columns={columns} data={TEACHER_DATA} checkboxSelection />
       </Box>
     </Flex>

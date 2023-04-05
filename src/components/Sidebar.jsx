@@ -123,7 +123,7 @@ export default function Sidebar() {
                     <Stack>
                       {item.map(({ id, name, icon, path }) => (
                         <NavLink
-                          color="#546e7a"
+                          color="#757575"
                           key={id}
                           collapse={collapse}
                           isActive={getMenuItemActive(path)}
@@ -132,7 +132,11 @@ export default function Sidebar() {
                               history.push(path);
                           }}
                           icon={icon}
-                          label={name}
+                          label={
+                            <Box ml="5px" mb="1px" fontWeight="normal">
+                              {name}
+                            </Box>
+                          }
                         />
                       ))}
                     </Stack>
