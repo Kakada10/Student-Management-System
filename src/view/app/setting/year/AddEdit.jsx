@@ -1,190 +1,128 @@
+import { Box, Grid, HStack, Text, VStack } from '@chakra-ui/react';
 import {
-    Box,
-    Button,
-    Center,
-    Flex,
-    Grid,
-    HStack,
-    IconButton,
-    useDisclosure,
-  } from '@chakra-ui/react';
-  import { styled, TextField } from '@mui/material';
-  import React, { useMemo, useState } from 'react';
-  import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-  import Pagination from '../table/Pagination';
-  import MOCK_DATA from '../table/MOCK_DATA.json';
-  import { useHistory, useLocation } from 'react-router-dom';
-  import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
-  import { MdRemoveRedEye } from 'react-icons/md';
-  // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
-  
-  const CssTextField = styled(TextField)({
-    marginTop: '10px',
-    '& label.Mui-focused': {
-      color: 'green',
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
+  TextField,
+} from '@mui/material';
+import Button from '@mui/material/Button';
+import { useState } from 'react';
+
+import { BiAddToQueue } from 'react-icons/bi';
+import { useHistory, useLocation } from 'react-router-dom';
+
+const CssTextField = styled(TextField)({
+  '& label': {
+    color: '#bdbdbd',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#b0bec5',
     },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: 'green',
+    '&:hover fieldset': {
+      borderColor: '#40c4ff',
     },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: 'gray',
-      },
-      '&:hover fieldset': {
-        borderColor: 'yellow',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'green',
-      },
+  },
+});
+
+const CssFormControl = styled(FormControl)({
+  '& label': {
+    color: '#bdbdbd',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#b0bec5',
     },
-  });
-  
-  export default function AddEdit() {
-    const [selected, setSelected] = useState('');
-  
-    const history = useHistory();
-    const { pathname } = useLocation();
-    const { onOpen: onDeleteModalOpen } = useDisclosure();
-  
-    const parentUrl = `/${pathname.split('/')[1]}`;
-    const columns = useMemo(
-      () => [
-        {
-          Header: 'ID',
-          accessor: 'id',
-        },
-        {
-          Header: 'First Name',
-          accessor: 'first_name',
-        },
-        {
-          Header: 'Last Name',
-          accessor: 'last_name',
-        },
-        {
-          Header: 'Year',
-          accessor: 'year',
-        },
-        {
-          Header: 'Group',
-          accessor: 'group',
-        },
-        {
-          Header: 'Action',
-          Cell: ({ row: { original } }) => (
-            <Center spacing={2} gap="6" justifyContent="left">
-              <IconButton
-                onClick={() =>
-                  history.push(`${parentUrl}/view/${original.value}`)
-                }
-                variant="ghost"
-                color="#78909c"
-                cursor="pointer"
-                bg="none"
-                size="sm"
-                border="none"
-                icon={<MdRemoveRedEye size="1.3rem" />}
-              />
-  
-              <IconButton
-                onClick={() =>
-                  history.push(`${parentUrl}/edit/${original.value}`)
-                }
-                variant="ghost"
-                cursor="pointer"
-                color="#78909c"
-                border="none"
-                bg="none"
-                size="sm"
-                icon={<HiOutlinePencilAlt size="1.3rem" />}
-              />
-              <IconButton
-                onClick={() => {
-                  setSelected(original);
-                  onDeleteModalOpen();
-                }}
-                size="sm"
-                variant="ghost"
-                cursor="pointer"
-                border="none"
-                bg="none"
-                color="#78909c"
-                icon={<HiOutlineTrash size="1.3rem" />}
-              />
-            </Center>
-          ),
-        },
-      ],
-      []
-    );
-  
-    const [, setFilter] = useState({ searchText: '' });
-  
-    return (
-      <Flex flexDir="column" bg="white" h="full" rounded="md">
-        <Grid
-          as="form"
-          templateColumns="auto max-content"
-          p="3"
-          mb="3"
-          boxShadow="sm"
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const formProps = Object.fromEntries(formData);
-            setFilter((prev) => ({
-              ...prev,
-              searchText: formProps.searchText,
-            }));
-          }}
-        >
-          <Grid
-            ml="10px"
-            variant="standard"
-            templateColumns="15vw max-content"
-            gap="4"
-          >
-            <CssTextField
-              size="small"
-              label="Search"
-              id="custom-css-outlined-input"
-            />
-            <IconButton
-              mt="10px"
-              color="white"
-              ml="5px"
-              bgColor="teal"
-              width="45px"
-              border="1px solid transparent"
-              borderRadius="8px"
-              type="submit"
-              colorScheme="brand"
-              icon={<BiSearchAlt2 fontSize="1.2rem" />}
-            />
-          </Grid>
-          <Grid>
-            <HStack h="40px" w="90px">
-              <Button
-                w="100%"
-                h="100%"
-                borderRadius="6px"
-                cursor="pointer"
-                border="1px solid transparent"
-                bgColor="teal"
-                color="white"
-                leftIcon={<BiAddToQueue fontSize="1.5rem" />}
-                colorScheme="brand"
-                onClick={() => history.push(`${parentUrl}/add`)}
-              >
-                Add
-              </Button>
-            </HStack>
-          </Grid>
+    '&:hover fieldset': {
+      borderColor: '#40c4ff',
+    },
+  },
+})
+
+export default function AddEdit() {
+  const [year, setYear] = useState('');
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const parentUrl = `/${pathname.split('/')[1]}`;
+
+  const handleChange = (event) => {
+    setYear(event.target.value);
+  };
+
+  return (
+    <Box bg="white" h="full" borderRadius='10px'>
+      <Grid
+        as="form"
+        m='10px'
+        templateColumns="auto max-content"
+        p="3"
+        mb="3"
+        boxShadow="sm"
+      >
+        <Grid templateColumns="max-content" gap="2" alignContent="center">
+          <Text ml="2" fontSize="lg" fontWeight="bold">
+            Create year
+          </Text>
         </Grid>
-        <Box mt="10px" flex="1" overflow="auto">
-          <Pagination columns={columns} data={MOCK_DATA} />
-        </Box>
-      </Flex>
-    );
-  }
-  
+        <Grid>
+          <HStack>
+            <Button
+              startIcon={<BiAddToQueue fontSize="1.5rem" />}
+              variant="outlined"
+              onClick={() => {
+                history.push(`${parentUrl}/list`);
+              }}
+            >
+              Add
+            </Button>
+
+            <Button
+              startIcon={<BiAddToQueue fontSize="1.5rem" />}
+              variant="outlined"
+              color="error"
+              onClick={() => {
+                history.push(`${parentUrl}/list`);
+              }}
+            >
+              Back
+            </Button>
+          </HStack>
+        </Grid>
+        <Grid gap="4" p="3">
+          <VStack spacing="25" mb='10px' alignItems="start">
+            <CssTextField
+              sx={{ width: 350 }}
+              label="From"
+              id="outlined-size-small"
+              size="small"
+            />
+            <CssTextField
+              sx={{ width: 350 }}
+              label="End"
+              id="outlined-size-small"
+              size="small"
+            />
+            <CssFormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small">Year</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={year}
+                label="Year"
+                onChange={handleChange}
+              >
+                <MenuItem value={1}>1</MenuItem>
+                <MenuItem value={2}>2</MenuItem>
+                <MenuItem value={3}>3</MenuItem>
+                <MenuItem value={4}>4</MenuItem>
+                <MenuItem value={5}>5</MenuItem>
+              </Select>
+            </CssFormControl>
+          </VStack>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

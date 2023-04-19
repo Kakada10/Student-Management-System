@@ -8,51 +8,76 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ButtonGroup, styled, TextField } from '@mui/material';
-import React, { useMemo, useState } from 'react';
-import { BiChevronLeft, BiSearchAlt2 } from 'react-icons/bi';
-import Pagination from '../table/Pagination';
-import COURSE from '../table/COURSE.json';
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  styled,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { useMemo, useState } from 'react';
+import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
+// import { InfiniteScroll } from '../../../../components/Tables';
+import Pagination from '../table/Pagination';
+import YEAR from '../table/YEAR.json';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
-import { color } from 'framer-motion';
-// import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
   marginTop: '10px',
+  marginLeft: '10px',
+  width: '100px',
+  '& label': {
+    color: '#bdbdbd',
+  },
   '& label.Mui-focused': {
-    color: 'green',
+    color: '#0288d1',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: 'green',
+    borderBottomColor: '#0288d1',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
       borderColor: 'gray',
     },
     '&:hover fieldset': {
-      borderColor: 'yellow',
+      borderColor: 'tomato',
     },
     '&.Mui-focused fieldset': {
-      borderColor: 'green',
+      borderColor: '#0288d1',
+    },
+  },
+});
+
+const CssFormControl = styled(FormControl)({
+  '& label': {
+    color: '#bdbdbd',
+  },
+  '& .MuiOutlinedInput-root': {
+    '&:hover fieldset': {
+      borderColor: 'tomato',
     },
   },
 });
 
 export default function List() {
-  const [selected, setSelected] = useState('');
-  const [selectedButton, setSelectedButton] = useState('');
-
-  const handleButtonClick = (button) => {
-    setSelectedButton(button);
-  };
-
   const history = useHistory();
   const { pathname } = useLocation();
-  const { onOpen: onDeleteModalOpen } = useDisclosure();
-
   const parentUrl = `/${pathname.split('/')[1]}`;
+  const [, setFilter] = useState({ searchText: '' });
+
+  const { onOpen: onDeleteModalOpen } = useDisclosure();
+  const [selected, setSelected] = useState('');
+
+  const [year, setYear] = useState('');
+
+  const handleChange = (event) => {
+    setYear(event.target.value);
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -60,14 +85,9 @@ export default function List() {
         accessor: 'id',
       },
       {
-        Header: 'Name',
+        Name: 'Name',
         accessor: 'name',
       },
-      {
-        Header: 'Taught By',
-        accessor: 'taught_by',
-      },
-
       {
         Header: 'Year',
         accessor: 'year',
@@ -86,7 +106,7 @@ export default function List() {
           <Center spacing={2} gap="6">
             <IconButton
               onClick={() =>
-                history.push(`${parentUrl}/view/${original.value}/detail`)
+                history.push(`${parentUrl}/view/${original.value}`)
               }
               variant="ghost"
               color="#78909c"
@@ -96,15 +116,16 @@ export default function List() {
               border="none"
               icon={<MdRemoveRedEye size="1.3rem" />}
             />
+
             <IconButton
               onClick={() =>
                 history.push(`${parentUrl}/edit/${original.value}`)
               }
               variant="ghost"
               cursor="pointer"
+              bg="none"
               color="#78909c"
               border="none"
-              bg="none"
               size="sm"
               icon={<HiOutlinePencilAlt size="1.3rem" />}
             />
@@ -115,9 +136,9 @@ export default function List() {
               }}
               size="sm"
               variant="ghost"
+              bg="none"
               cursor="pointer"
               border="none"
-              bg="none"
               color="#78909c"
               icon={<HiOutlineTrash size="1.3rem" />}
             />
@@ -129,10 +150,8 @@ export default function List() {
     []
   );
 
-  const [, setFilter] = useState({ searchText: '' });
-
   return (
-    <Flex flexDir="column" bg="white" h="full" rounded="md">
+    <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -154,10 +173,33 @@ export default function List() {
           variant="standard"
           templateColumns="15vw max-content"
           gap="4"
+          display="flex"
         >
+          <Typography mt="15px">Student Year :</Typography>
+          <CssFormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Year</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              value={year}
+              label="Year"
+              onChange={handleChange}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+            </Select>
+          </CssFormControl>
           <CssTextField
             size="small"
-            label="Search"
+            label="Start"
+            id="custom-css-outlined-input"
+          />
+          <CssTextField
+            size="small"
+            label="End"
             id="custom-css-outlined-input"
           />
           <IconButton
@@ -169,13 +211,13 @@ export default function List() {
             border="1px solid transparent"
             borderRadius="8px"
             type="submit"
+            cursor="pointer"
             colorScheme="brand"
             icon={<BiSearchAlt2 fontSize="1.2rem" />}
           />
         </Grid>
-
-        <Grid>
-          <HStack h="40px" w="90px">
+        <Grid mt="10px">
+          <HStack h="40px" w="90px" mr="10px">
             <Button
               w="100%"
               h="100%"
@@ -184,17 +226,17 @@ export default function List() {
               border="1px solid transparent"
               bgColor="teal"
               color="white"
-              leftIcon={<BiChevronLeft fontSize="1.5rem" />}
+              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
               colorScheme="brand"
-              onClick={() => history.push(`${parentUrl}/list`)}
+              onClick={() => history.push(`${parentUrl}/add`)}
             >
-              Back
+              Add
             </Button>
           </HStack>
         </Grid>
       </Grid>
-      <Box mt="10px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={COURSE} />
+      <Box mt="10px" mb="20px" flex="1" overflow="auto">
+        <Pagination columns={columns} data={YEAR} />
       </Box>
     </Flex>
   );

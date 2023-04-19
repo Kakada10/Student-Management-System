@@ -1,10 +1,9 @@
-import { Box } from '@chakra-ui/react';
-import React from 'react';
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
-import AddEdit from './AddEdit';
 import List from './List';
+import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
+import AddEdit from './AddEdit';
 
-export default function Year() {
+export default function Student() {
   const { url } = useRouteMatch();
   return (
     <Box>

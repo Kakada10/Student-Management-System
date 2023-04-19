@@ -8,76 +8,43 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  styled,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { useMemo, useState } from 'react';
+import {  styled, TextField } from '@mui/material';
+import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-import { useHistory, useLocation } from 'react-router-dom';
-// import { InfiniteScroll } from '../../../../components/Tables';
 import Pagination from '../table/Pagination';
-import YEAR from '../table/YEAR.json';
+import COURSE from '../table/COURSE.json';
+import { useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
+// import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
 const CssTextField = styled(TextField)({
-  marginTop: '10px',
-  marginLeft: '10px',
-  width: '100px',
   '& label': {
     color: '#bdbdbd',
-  },
-  '& label.Mui-focused': {
-    color: '#0288d1',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#0288d1',
   },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'gray',
+      borderColor: '#b0bec5',
     },
     '&:hover fieldset': {
-      borderColor: 'tomato',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#0288d1',
-    },
-  },
-});
-
-const CssFormControl = styled(FormControl)({
-  '& label': {
-    color: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '&:hover fieldset': {
-      borderColor: 'tomato',
+      borderColor: '#40c4ff',
     },
   },
 });
 
 export default function List() {
+  const [selected, setSelected] = useState('');
+  // const [selectedButton, setSelectedButton] = useState('');
+
+  // const handleButtonClick = (button) => {
+  //   setSelectedButton(button);
+  // };
+
   const history = useHistory();
   const { pathname } = useLocation();
-  const parentUrl = `/${pathname.split('/')[1]}`;
-  const [, setFilter] = useState({ searchText: '' });
-
   const { onOpen: onDeleteModalOpen } = useDisclosure();
-  const [selected, setSelected] = useState('');
 
-  const [year, setYear] = useState('');
-
-  const handleChange = (event) => {
-    setYear(event.target.value);
-  };
-
+  const parentUrl = `/${pathname.split('/')[1]}`;
   const columns = useMemo(
     () => [
       {
@@ -85,9 +52,14 @@ export default function List() {
         accessor: 'id',
       },
       {
-        Name: 'Name',
+        Header: 'Name',
         accessor: 'name',
       },
+      {
+        Header: 'Taught By',
+        accessor: 'taught_by',
+      },
+
       {
         Header: 'Year',
         accessor: 'year',
@@ -106,7 +78,7 @@ export default function List() {
           <Center spacing={2} gap="6">
             <IconButton
               onClick={() =>
-                history.push(`${parentUrl}/view/${original.value}`)
+                history.push(`${parentUrl}/view/${original.value}/detail`)
               }
               variant="ghost"
               color="#78909c"
@@ -116,16 +88,15 @@ export default function List() {
               border="none"
               icon={<MdRemoveRedEye size="1.3rem" />}
             />
-
             <IconButton
               onClick={() =>
                 history.push(`${parentUrl}/edit/${original.value}`)
               }
               variant="ghost"
               cursor="pointer"
-              bg="none"
               color="#78909c"
               border="none"
+              bg="none"
               size="sm"
               icon={<HiOutlinePencilAlt size="1.3rem" />}
             />
@@ -136,9 +107,9 @@ export default function List() {
               }}
               size="sm"
               variant="ghost"
-              bg="none"
               cursor="pointer"
               border="none"
+              bg="none"
               color="#78909c"
               icon={<HiOutlineTrash size="1.3rem" />}
             />
@@ -149,6 +120,8 @@ export default function List() {
     //eslint-disable-next-line
     []
   );
+
+  const [, setFilter] = useState({ searchText: '' });
 
   return (
     <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
@@ -169,41 +142,17 @@ export default function List() {
         }}
       >
         <Grid
-          ml="10px"
+          m="10px"
           variant="standard"
           templateColumns="15vw max-content"
           gap="4"
-          display="flex"
         >
-          <Typography mt="15px">Student Year :</Typography>
-          <CssFormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small">Year</InputLabel>
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              value={year}
-              label="Year"
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-            </Select>
-          </CssFormControl>
           <CssTextField
             size="small"
-            label="Start"
-            id="custom-css-outlined-input"
-          />
-          <CssTextField
-            size="small"
-            label="End"
+            label="Search"
             id="custom-css-outlined-input"
           />
           <IconButton
-            mt="10px"
             color="white"
             ml="5px"
             bgColor="teal"
@@ -211,32 +160,33 @@ export default function List() {
             border="1px solid transparent"
             borderRadius="8px"
             type="submit"
-            cursor="pointer"
             colorScheme="brand"
             icon={<BiSearchAlt2 fontSize="1.2rem" />}
           />
         </Grid>
+
         <Grid mt="10px">
-          <HStack h="40px" w="90px" mr="10px">
-            <Button
-              w="100%"
-              h="100%"
-              borderRadius="6px"
-              cursor="pointer"
-              border="1px solid transparent"
-              bgColor="teal"
-              color="white"
-              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
-              colorScheme="brand"
-              onClick={() => history.push(`${parentUrl}/add`)}
-            >
-              Add
-            </Button>
-          </HStack>
-        </Grid>
+            <HStack h="40px" w="90px" mr="10px">
+              <Button
+                // mt="20px"
+                w="100%"
+                h="100%"
+                borderRadius="6px"
+                cursor="pointer"
+                border="1px solid transparent"
+                bgColor="teal"
+                color="white"
+                leftIcon={<BiAddToQueue fontSize="1.5rem" />}
+                colorScheme="brand"
+                onClick={() => history.push(`${parentUrl}/add`)}
+              >
+                Add
+              </Button>
+            </HStack>
+          </Grid>
       </Grid>
-      <Box mt="10px" mb="20px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={YEAR} />
+      <Box mt="10px" mb='20px' flex="1" overflow="auto">
+        <Pagination columns={columns} data={COURSE} />
       </Box>
     </Flex>
   );

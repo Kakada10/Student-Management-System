@@ -20,15 +20,12 @@ table tr:hover {
   background-color: white;
 }
 
-table tbody {
-  color: rgb(116, 113, 113);
-}
-
 table th,
 td {
   text-align: center;
   border-bottom: 1px solid rgb(221, 218, 218);
 }
+
 tfoot td {
   padding-top: 12px;
   padding-bottom: 12px;

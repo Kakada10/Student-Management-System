@@ -2,7 +2,7 @@ import { Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { Box } from '@mui/system';
 import React from 'react';
 import { usePagination, useTable } from 'react-table';
-import { Spinner } from '../../../../components/loader';
+// import { Spinner } from '../../../../components/loader';
 // import {COLUMNS} from './columns'
 // import MOCK_DATA from './MOCK_DATA.json'
 import './table.css';
@@ -16,15 +16,7 @@ export default function Pagination({ columns, data }) {
     getTableBodyProps,
     headerGroups,
     page,
-    nextPage,
-    previousPage,
-    canNextPage,
-    canPreviousPage,
-    pageOptions,
-    gotoPage,
-    pageCount,
-    setPageSize,
-    state,
+    
     prepareRow,
   } = useTable(
     {
@@ -37,7 +29,6 @@ export default function Pagination({ columns, data }) {
     usePagination
   );
 
-  const { pageIndex, pageSize } = state;
 
   return (
     <Box pos="relative" h="full">
@@ -55,7 +46,7 @@ export default function Pagination({ columns, data }) {
           zIndex="2"
           pos="sticky"
           top="0"
-          bg="gray.50"
+          color='#668284'
         >
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
