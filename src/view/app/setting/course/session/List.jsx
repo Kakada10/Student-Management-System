@@ -16,11 +16,10 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-
 import React, { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../../table/Pagination';
-import MOCK_DATA from '../../table/MOCK_DATA.json';
+import SESSION from '../../table/session.json';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import {
@@ -91,6 +90,7 @@ const StyledInputElement = styled('input')(
   }
 `
 );
+
 const CustomInput = forwardRef(function CustomInput(props, ref) {
   return (
     <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
@@ -98,14 +98,15 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
 });
 
 export default function List() {
-  const [selected, setSelected] = useState('');
+  const [, setSelected] = useState('');
   const history = useHistory();
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const parentUrl = `/${pathname.split('/')[1]}`;
   const routeUrl = `/${pathname.split('/')[1]}/${pathname.split('/')[2]}/${
     pathname.split('/')[3]
-  }`;
+  }/${pathname.split('/')[4]}`;
+  console.log(routeUrl);
   //Dropdown
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -141,27 +142,27 @@ export default function List() {
         accessor: 'id',
       },
       {
-        Header: 'First Name',
-        accessor: 'first_name',
+        Header: 'Title',
+        accessor: 'title',
       },
       {
-        Header: 'Last Name',
-        accessor: 'last_name',
+        Header: 'Created Date',
+        accessor: 'created_date',
       },
       {
-        Header: 'Year',
-        accessor: 'year',
+        Header: 'Start',
+        accessor: 'time_start',
       },
       {
-        Header: 'Group',
-        accessor: 'group',
+        Header: 'End',
+        accessor: 'time_end',
       },
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() => history.push(`${routeUrl}/student-list`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -238,14 +239,13 @@ export default function List() {
             gap="4"
           >
             <CustomInput aria-label="Demo input" placeholder="Search" />
-            <Button
-              sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
-              variant="contained"
-              onClick={() => history.push(`${parentUrl}/add`)}
-            >
-              <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
-            </Button>
-
+          <Button
+            sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
+            variant="contained"
+            onClick={() => history.push(`${parentUrl}/add`)}
+          >
+            <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
+          </Button>
             <Flex ml="20px" height="70%" borderRadius="8px">
               <Button
                 id="fade-button"
@@ -435,12 +435,7 @@ export default function List() {
                       }}
                     />
                     <Typography variant="body2" mt="5px">
-                      <Link
-                        style={{ textDecoration: 'none', color: 'gray' }}
-                        to={`${routeUrl}/session`}
-                      >
-                        All Assignment
-                      </Link>
+                      All Session
                     </Typography>
                   </ListItemIcon>
                 </MenuItem>
@@ -491,22 +486,17 @@ export default function List() {
               <Button
                 sx={{ height: '100%' }}
                 variant="contained"
-                onClick={() => history.push(`${parentUrl}/add`)}
+                onClick={() => history.push(`${parentUrl}/list`)}
                 startIcon={<BiAddToQueue />}
               >
-                Add
+                Back
               </Button>
             </HStack>
           </Grid>
         </Box>
       </Grid>
-      <Box>
-        <Typography ml="15px" color="#b5b5c3" variant="body2">
-          Class : Cloud Computing
-        </Typography>
-      </Box>
       <Box mt="10px" mb="20px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={MOCK_DATA} />
+        <Pagination columns={columns} data={SESSION} />
       </Box>
     </Flex>
   );

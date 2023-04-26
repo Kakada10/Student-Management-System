@@ -16,11 +16,10 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-
 import React, { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-import Pagination from '../../table/Pagination';
-import MOCK_DATA from '../../table/MOCK_DATA.json';
+import Pagination from '../../../table/Pagination';
+import SUB_STUDENT from '../../../table/submission_student.json';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import {
@@ -91,6 +90,7 @@ const StyledInputElement = styled('input')(
   }
 `
 );
+
 const CustomInput = forwardRef(function CustomInput(props, ref) {
   return (
     <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
@@ -98,14 +98,14 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
 });
 
 export default function List() {
-  const [selected, setSelected] = useState('');
+  const [, setSelected] = useState('');
   const history = useHistory();
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const parentUrl = `/${pathname.split('/')[1]}`;
   const routeUrl = `/${pathname.split('/')[1]}/${pathname.split('/')[2]}/${
     pathname.split('/')[3]
-  }`;
+  }/${pathname.split('/')[4]}`;
   //Dropdown
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -149,6 +149,10 @@ export default function List() {
         accessor: 'last_name',
       },
       {
+        Header: 'Gender',
+        accessor: 'gender',
+      },
+      {
         Header: 'Year',
         accessor: 'year',
       },
@@ -157,11 +161,15 @@ export default function List() {
         accessor: 'group',
       },
       {
+        Header: 'Mark',
+        accessor: 'mark',
+      },
+      {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/add`)}
+              onClick={() => history.push(`${routeUrl}/submission`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -245,7 +253,6 @@ export default function List() {
             >
               <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
             </Button>
-
             <Flex ml="20px" height="70%" borderRadius="8px">
               <Button
                 id="fade-button"
@@ -435,12 +442,7 @@ export default function List() {
                       }}
                     />
                     <Typography variant="body2" mt="5px">
-                      <Link
-                        style={{ textDecoration: 'none', color: 'gray' }}
-                        to={`${routeUrl}/session`}
-                      >
-                        All Assignment
-                      </Link>
+                      All Session
                     </Typography>
                   </ListItemIcon>
                 </MenuItem>
@@ -485,16 +487,15 @@ export default function List() {
               </Menu>
             </Flex>
           </Flex>
-
           <Grid h="42px">
             <HStack h="100%" w="90px" mr="10px">
               <Button
                 sx={{ height: '100%' }}
                 variant="contained"
-                onClick={() => history.push(`${parentUrl}/add`)}
+                onClick={() => history.push(`${routeUrl}`)}
                 startIcon={<BiAddToQueue />}
               >
-                Add
+                Back
               </Button>
             </HStack>
           </Grid>
@@ -505,8 +506,13 @@ export default function List() {
           Class : Cloud Computing
         </Typography>
       </Box>
+      <Box>
+        <Typography ml="15px" color="#b5b5c3" variant="body2">
+          Assignment : TP1
+        </Typography>
+      </Box>
       <Box mt="10px" mb="20px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={MOCK_DATA} />
+        <Pagination columns={columns} data={SUB_STUDENT} />
       </Box>
     </Flex>
   );

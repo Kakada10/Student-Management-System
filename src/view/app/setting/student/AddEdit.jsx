@@ -1,91 +1,351 @@
-import { Box, Grid, HStack, Text, VStack } from '@chakra-ui/react';
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Radio,
-  RadioGroup,
-  styled,
-  TextField,
-} from '@mui/material';
+import { Grid, Text, VStack } from '@chakra-ui/react';
+import { FormControl, FormLabel, Stack, styled } from '@mui/material';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import React from 'react';
+import { Box } from '@mui/system';
 import { BiAddToQueue } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import PropTypes from 'prop-types';
+import { Input, Popper, Select, inputClasses, optionClasses, selectClasses } from '@mui/base';
 
-const CssTextField = styled(TextField)({
-  '& label': {
-    color: '#bdbdbd',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#b0bec5',
-    },
-    '&:hover fieldset': {
-      borderColor: '#40c4ff',
-    },
-  },
+//Input
+
+const blue = {
+  100: '#DAECFF',
+  200: '#b6daff',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+};
+
+const grey = {
+  50: '#f6f8fa',
+  100: '#eaeef2',
+  200: '#d0d7de',
+  300: '#afb8c1',
+  400: '#8c959f',
+  500: '#6e7781',
+  600: '#57606a',
+  700: '#424a53',
+  800: '#32383f',
+  900: '#24292f',
+};
+
+const StyledInputElement = styled('input')(
+  ({ theme }) => `
+  width: 320px;
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`
+);
+
+const CustomInput = React.forwardRef(function CustomInput(props, ref) {
+  return (
+    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
+  );
 });
 
-const CssOutlinedInput = styled(FormControl)({
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#b0bec5',
-    },
-    '&:hover fieldset': {
-      borderColor: '#40c4ff',
-    },
-  },
+// Select drop down
+
+const StyledButton = styled('button')(
+  ({ theme }) => `
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  min-height: calc(1.5em + 22px);
+  min-width: 320px;
+  padding: 12px;
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.5;
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 120ms;
+
+  &:hover {
+    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
+    border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
+  }
+
+  &.${selectClasses.focusVisible} {
+    border-color: ${blue[400]};
+    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+  }
+
+  &.${selectClasses.expanded} {
+    &::after {
+      content: '▴';
+    }
+  }
+
+  &::after {
+    content: '▾';
+    float: right;
+  }
+  `,
+);
+
+const StyledListbox = styled('ul')(
+  ({ theme }) => `
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  padding: 6px;
+  margin: 12px 0;
+  min-width: 320px;
+  border-radius: 12px;
+  overflow: auto;
+  outline: 0px;
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
+  `,
+);
+
+const StyledOption = styled(Option)(
+  ({ theme }) => `
+  list-style: none;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: default;
+
+  &:last-of-type {
+    border-bottom: none;
+  }
+
+  &.${optionClasses.selected} {
+    background-color: ${theme.palette.mode === 'dark' ? blue[900] : blue[100]};
+    color: ${theme.palette.mode === 'dark' ? blue[100] : blue[900]};
+  }
+
+  &.${optionClasses.highlighted} {
+    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  }
+
+  &.${optionClasses.highlighted}.${optionClasses.selected} {
+    background-color: ${theme.palette.mode === 'dark' ? blue[900] : blue[100]};
+    color: ${theme.palette.mode === 'dark' ? blue[100] : blue[900]};
+  }
+
+  &.${optionClasses.disabled} {
+    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
+  }
+
+  &:hover:not(.${optionClasses.disabled}) {
+    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  }
+  `,
+);
+
+const StyledPopper = styled(Popper)`
+  z-index: 1;
+`;
+
+const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
+  const slots = {
+    root: StyledButton,
+    listbox: StyledListbox,
+    popper: StyledPopper,
+    ...props.slots,
+  };
+
+  return <Select {...props} ref={ref} slots={slots} />;
 });
+
+//Input password
+const StyledInputRoot = styled('div')(
+  ({ theme }) => `
+  font-family: IBM Plex Sans, sans-serif;
+  font-weight: 400;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  &.${inputClasses.focused} {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+  }
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`,
+);
+
+const StyledInputElementPas = styled('input')(
+  ({ theme }) => `
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: 400;
+  line-height: 1.5;
+  flex-grow: 1;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: inherit;
+  border: none;
+  border-radius: inherit;
+  padding: 12px 12px;
+  outline: 0;
+`,
+);
+
+const IconButton = styled(Button)(
+  ({ theme }) => `
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: inherit;
+  cursor: pointer;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[700]};
+  `,
+);
+
+const InputAdornment = styled('div')`
+  margin: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CustomInputPas = React.forwardRef(function CustomInput(props, ref) {
+  const { slots, ...other } = props;
+  return (
+    <Input
+      slots={{
+        root: StyledInputRoot,
+        input: StyledInputElementPas,
+        ...slots,
+      }}
+      {...other}
+      ref={ref}
+    />
+  );
+});
+
+CustomInput.propTypes = {
+  /**
+   * The components used for each slot inside the InputBase.
+   * Either a string to use a HTML element or a component.
+   * @default {}
+   */
+  slots: PropTypes.shape({
+    input: PropTypes.elementType,
+    root: PropTypes.elementType,
+    textarea: PropTypes.elementType,
+  }),
+};
 
 export default function AddEdit() {
-  const [showPassword, setShowPassword] = useState(false);
-
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const [values, setValues] = React.useState({
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false,
+  });
+
+  const handleChange = (prop) => (event) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
   return (
-    <Box bg="white" h="full" borderRadius='10px'>
+    <Box
+      sx={{
+        background: 'white',
+        height: '800px',
+        borderRadius: '10px',
+        marginBottom: '50px',
+      }}
+    >
       <Grid
         as="form"
-        m='10px'
+        m="10px"
         templateColumns="auto max-content"
         p="3"
-        mb="3"
         boxShadow="sm"
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
-          <Text ml="2" fontSize="lg" fontWeight="bold">
-            Create student
+          <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
+            Create Teacher
           </Text>
         </Grid>
         <Grid>
-          <HStack>
+          <Stack mt="10px" direction="row" spacing="8">
             <Button
+              sx={{ height: '42px', mr: '6px' }}
               startIcon={<BiAddToQueue fontSize="1.5rem" />}
-              variant="outlined"
+              variant="contained"
               onClick={() => {
                 history.push(`${parentUrl}/list`);
               }}
             >
               Add
             </Button>
-
             <Button
+              sx={{ height: '42px' }}
               startIcon={<BiAddToQueue fontSize="1.5rem" />}
-              variant="outlined"
+              variant="contained"
               color="error"
               onClick={() => {
                 history.push(`${parentUrl}/list`);
@@ -93,101 +353,124 @@ export default function AddEdit() {
             >
               Back
             </Button>
-          </HStack>
+          </Stack>
         </Grid>
         <Grid gap="4" p="3">
-          <VStack spacing="25" mb='10px' alignItems="start">
-            <CssTextField
-              sx={{ width: 350 }}
-              label="First name"
-              id="custom-css-outlined-input"
-              size="small"
-            />
-            <CssTextField
-              sx={{ width: 350 }}
-              label="Last name"
-              id="outlined-size-small"
-              size="small"
-            />
-            <CssTextField
-              sx={{ width: 350, borderColor: 'red' }}
-              label="ID"
-              id="outlined-size-small"
-              size="small"
-            />
-             <CssTextField
-              sx={{ width: 350, borderColor: 'red' }}
-              label="Group"
-              id="outlined-size-small"
-              size="small"
-            />
-
-
-            <FormControl>
-              <FormLabel id="demo-row-radio-buttons-group-label">
+          <VStack spacing="25" mb="10px" alignItems="start">
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                First Name
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter first name"
+              />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Last Name
+              </FormLabel>
+              <CustomInput placeholder="Please enter last name" />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                ID
+              </FormLabel>
+              <CustomInput placeholder="Please enter student ID" />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
                 Gender
               </FormLabel>
-              <RadioGroup
-                size="small"
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-              >
-                <FormControlLabel
-                  sx={{ color: '#9e9e9e', fontWeight: '4' }}
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  sx={{ color: '#9e9e9e' }}
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-              </RadioGroup>
+              <CustomSelect defaultValue={10} id="unnamed-select">
+                <StyledOption value={1}>Male</StyledOption>
+                <StyledOption value={2}>Female</StyledOption>
+              </CustomSelect>
             </FormControl>
-            <CssTextField
-              sx={{ width: 350 }}
-              label="Gmail"
-              id="outlined-size-small"
-              size="small"
-            />
-            <CssTextField
-              sx={{ width: 350 }}
-              label="Phone number"
-              id="outlined-size-small"
-              size="small"
-            />
-            <CssOutlinedInput
-              sx={{ m: 1, width: 350 }}
-              size="small"
-              variant="outlined"
-            >
-              <InputLabel
-                sx={{ color: '#bdbdbd' }}
-                htmlFor="outlined-adornment-password"
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Gmail
+              </FormLabel>
+              <CustomInput placeholder="Please enter gmail" />
+            </FormControl>
+            <FormControl>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Phone Number
+              </FormLabel>
+              <CustomInput placeholder="Please enter phone number" />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
               >
                 Password
-              </InputLabel>
-              <OutlinedInput
+              </FormLabel>
+              <CustomInputPas
+                placeholder="Please enter password"
                 id="outlined-adornment-password"
-                type={showPassword ? 'text' : 'password'}
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
                 endAdornment={
-                  <InputAdornment position="end">
+                  <InputAdornment>
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
                       onMouseDown={handleMouseDownPassword}
-                      edge="end"
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 }
-                label="Password"
               />
-            </CssOutlinedInput>
+            </FormControl>
           </VStack>
         </Grid>
       </Grid>

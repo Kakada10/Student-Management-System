@@ -101,22 +101,17 @@ export default function Sidebar() {
                   School Management
                 </Heading>
               </Fade>
-              <Stack
-                spacing="2"
-                as="nav"
-                aria-label="Sidebar Navigation"
-                mt="3"
-              >
+              <Stack spacing="2" as="nav" aria-label="Sidebar Navigation">
                 {MenuConstants.map(({ name, item }, i) => (
                   <React.Fragment key={name}>
                     <Text
                       whiteSpace="nowrap"
-                      px="3"
                       fontSize="xs"
                       fontWeight="semibold"
                       textTransform="uppercase"
                       letterSpacing="widest"
                       color="#9e9e9e"
+                      padding="10px"
                     >
                       <Fade in={!collapse}>{name}</Fade>
                     </Text>

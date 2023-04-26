@@ -27,11 +27,17 @@ const DelayImport = (path) => {
   });
 };
 
+//List
 const Student = DelayImport(import('./setting/student'));
 const Teacher = DelayImport(import('./setting/teacher'));
 const Year = DelayImport(import('./setting/year'));
 const Course = DelayImport(import('./setting/course'));
 const Academic = DelayImport(import('./setting/academic'));
+const Assignment = DelayImport(import('./setting/assignment'));
+
+//Setting
+const SystemRole = DelayImport(import('./setting/system-role'));
+const User = DelayImport(import('./setting/user'));
 
 const routeItem = [
   {
@@ -53,6 +59,18 @@ const routeItem = [
   {
     path: '/academic',
     element: <Academic />,
+  },
+  {
+    path: '/system-role',
+    element: <SystemRole />,
+  },
+  {
+    path: '/user',
+    element: <User />,
+  },
+  {
+    path: '/assignment',
+    element: <Assignment />,
   },
 ];
 

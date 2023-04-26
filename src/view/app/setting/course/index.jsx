@@ -4,6 +4,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import List from './List';
 import AddEdit from './AddEdit';
 import Student from './student'
+import Session from './session'
 
 export default function Course() {
   const { url } = useRouteMatch();
@@ -13,6 +14,7 @@ export default function Course() {
         <Route path={`${url}/list`} component={List} />
         <Route path={`${url}/add`} component={AddEdit } />
         <Route path={`${url}/view/:id`} component={Student } />
+        <Route path={`${url}/view/:id`} component={Session } />
         <Route path={`${url}/edit/:id`} component={AddEdit } />
         <Redirect to={`${url}/list`} />
       </Switch>

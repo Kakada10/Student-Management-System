@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Center,
   Flex,
   Grid,
@@ -8,37 +7,70 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { styled, TextField } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { Button, styled } from '@mui/material';
+import React, { useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
-// import { InfiniteScroll } from '../../../../components/Tables';
 import Pagination from '../table/Pagination';
 import TEACHER_DATA from '../table/TEACHER_DATA.json';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
+import { Input } from '@mui/base';
 
-const CssTextField = styled(TextField)({
-  // marginTop: '10px',
-  '& label.Mui-focused': {
-    color: 'green',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: 'green',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: 'gray',
-    },
-    '&:hover fieldset': {
-      borderColor: 'yellow',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: 'green',
-    },
-  },
+const blue = {
+  100: '#DAECFF',
+  200: '#b6daff',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+};
+
+const grey = {
+  50: '#f6f8fa',
+  100: '#eaeef2',
+  200: '#d0d7de',
+  300: '#afb8c1',
+  400: '#8c959f',
+  500: '#6e7781',
+  600: '#57606a',
+  700: '#424a53',
+  800: '#32383f',
+  900: '#24292f',
+};
+
+const StyledInputElement = styled('input')(
+  ({ theme }) => `
+  width: 320px;
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`,
+);
+
+const CustomInput = React.forwardRef(function CustomInput(props, ref) {
+  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
 });
-
 export default function List() {
   const history = useHistory();
   const { pathname } = useLocation();
@@ -75,9 +107,7 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/view/${original.value}`)
-              }
+              onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -88,9 +118,7 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/edit/${original.value}`)
-              }
+              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -121,81 +149,56 @@ export default function List() {
   );
 
   return (
-    <Flex flexDir="column" bgColor="white" borderRadius="10px" h="full">
+    <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
+    <Grid
+      as="form"
+      templateColumns="auto max-content"
+      p="3"
+      mb="3"
+      boxShadow="sm"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const formProps = Object.fromEntries(formData);
+        setFilter((prev) => ({
+          ...prev,
+          searchText: formProps.searchText,
+        }));
+      }}
+    >
       <Grid
-        as="form"
-        templateColumns="auto max-content"
-        p="8"
-        mb="3"
-        boxShadow="sm"
+        ml="10px"
+        mt="10px"
+        variant="standard"
+        templateColumns="15vw max-content"
+        gap="4"
+        display="flex"
       >
-        <Box
-          borderRadius="8px"
-          h="60px"
-          display="flex"
-          flexDir="row"
-          justifyContent="space-between"
+        <CustomInput aria-label="Demo input" placeholder="Search" />
+        <Button
+          sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
+          variant="contained"
+          onClick={() => history.push(`${parentUrl}/add`)}
         >
-          <Grid
-            ml="10px"
-            mt="10px"
-            variant="standard"
-            templateColumns="15vw max-content"
-            gap="4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const formProps = Object.fromEntries(formData);
-              setFilter((prev) => ({
-                ...prev,
-                searchText: formProps.searchText,
-              }));
-            }}
-          >
-            <CssTextField
-              size="small"
-              label="Search"
-              id="custom-css-outlined-input"
-            />
-            <IconButton
-              // mt="10px"
-              color="white"
-              ml="5px"
-              bgColor="teal"
-              h="40px"
-              width="45px"
-              cursor="pointer"
-              border="1px solid transparent"
-              borderRadius="8px"
-              type="submit"
-              colorScheme="brand"
-              icon={<BiSearchAlt2 fontSize="1.2rem" />}
-            />
-          </Grid>
-          <Grid mt="10px">
-            <HStack h="40px" w="90px" mr="10px">
-              <Button
-                // mt="20px"
-                w="100%"
-                h="100%"
-                borderRadius="6px"
-                cursor="pointer"
-                border="1px solid transparent"
-                bgColor="teal"
-                color="white"
-                leftIcon={<BiAddToQueue fontSize="1.5rem" />}
-                colorScheme="brand"
-                onClick={() => history.push(`${parentUrl}/add`)}
-              >
-                Add
-              </Button>
-            </HStack>
-          </Grid>
-        </Box>
+          <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
+        </Button>
       </Grid>
-      <Box mt="10px" mb="20px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={TEACHER_DATA} />
-      </Box>
-    </Flex>
+      <Grid mt="10px" h="42px">
+        <HStack h="100%" w="90px" mr="10px">
+          <Button
+            sx={{ height: '100%' }}
+            variant="contained"
+            onClick={() => history.push(`${parentUrl}/add`)}
+            startIcon={<BiAddToQueue />}
+          >
+            Add
+          </Button>
+        </HStack>
+      </Grid>
+    </Grid>
+    <Box mt="10px" mb="20px" flex="1" overflow="auto">
+      <Pagination columns={columns} data={TEACHER_DATA} />
+    </Box>
+  </Flex>
   );
 }

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Center,
   Flex,
   Grid,
@@ -9,47 +8,161 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import {
+  Button,
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  FormLabel,
   styled,
-  TextField,
-  Typography,
 } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
+// import InputUnstyled from '@mui/base/InputUnstyled';
+
 // import { InfiniteScroll } from '../../../../components/Tables';
 import Pagination from '../table/Pagination';
 import TEACHER_DATA from '../table/TEACHER_DATA.json';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
+import { Input } from '@mui/base';
 
+const blue = {
+  100: '#DAECFF',
+  200: '#b6daff',
+  400: '#3399FF',
+  500: '#007FFF',
+  600: '#0072E5',
+};
 
+const grey = {
+  50: '#f6f8fa',
+  100: '#eaeef2',
+  200: '#d0d7de',
+  300: '#afb8c1',
+  400: '#8c959f',
+  500: '#6e7781',
+  600: '#57606a',
+  700: '#424a53',
+  800: '#32383f',
+  900: '#24292f',
+};
 
-const CssTextField = styled(TextField)({
-  marginTop: '10px',
-  marginLeft: '10px',
-  width: '100px',
-  '& label.Mui-focused': {
-    color: 'green',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: 'green',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: 'gray',
-    },
-    '&:hover fieldset': {
-      borderColor: 'yellow',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: 'green',
-    },
-  },
+const StyledInputElement = styled('input')(
+  ({ theme }) => `
+  width: 250px;
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`
+);
+
+const StyledInputElement2 = styled('input')(
+  ({ theme }) => `
+  width: 80px;
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`
+);
+
+const StyledInputElement3 = styled('input')(
+  ({ theme }) => `
+  width: 80px;
+  font-family: IBM Plex Sans, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 12px;
+  border-radius: 12px;
+  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
+
+  &:hover {
+    border-color: ${blue[400]};
+  }
+
+  &:focus {
+    border-color: ${blue[400]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
+  }
+
+  // firefox
+  &:focus-visible {
+    outline: 0;
+  }
+`
+);
+
+const CustomInput = forwardRef(function CustomInput(props, ref) {
+  return (
+    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
+  );
 });
+
+const CustomInput2 = forwardRef(function CustomInput(props, ref) {
+  return (
+    <Input slots={{ input: StyledInputElement2 }} {...props} ref={ref} />
+  );
+});
+
+const CustomInput3 = forwardRef(function CustomInput(props, ref) {
+  return (
+    <Input slots={{ input: StyledInputElement3 }} {...props} ref={ref} />
+  );
+});
+
 
 export default function List() {
   const history = useHistory();
@@ -60,11 +173,6 @@ export default function List() {
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const [selected, setSelected] = useState('');
 
-  const [year, setYear] = useState('');
-
-  const handleChange = (event) => {
-    setYear(event.target.value);
-  };
 
   const columns = useMemo(
     () => [
@@ -93,7 +201,9 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/view/${original.value}`)}
+              onClick={() =>
+                history.push(`${parentUrl}/view/${original.id}`)
+              }
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -104,7 +214,9 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() => history.push(`${parentUrl}/edit/${original.value}`)}
+              onClick={() =>
+                history.push(`${parentUrl}/edit/${original.id}`)
+              }
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -135,7 +247,7 @@ export default function List() {
   );
 
   return (
-    <Flex flexDir="column" borderRadius='10px' bg="white" h="full" >
+    <Flex flexDir="column" borderRadius="10px" bg="white" h="full">
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -154,72 +266,73 @@ export default function List() {
       >
         <Grid
           ml="10px"
+          mt="10px"
           variant="standard"
           templateColumns="15vw max-content"
           gap="4"
           display="flex"
         >
-          <Typography mt="15px">Student Year :</Typography>
-          <FormControl sx={{ mt: 1.3, ml: 2, minWidth: 120 }} size="small">
-            <InputLabel id="demo-select-small">Year</InputLabel>
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              value={year}
-              label="Year"
-              onChange={handleChange}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
-            </Select>
-          </FormControl>
-          <CssTextField
-            size="small"
-            label="Start"
-            id="custom-css-outlined-input"
-          />
-          <CssTextField
-            size="small"
-            label="End"
-            id="custom-css-outlined-input"
-          />
-          <IconButton
-            mt="10px"
-            color="white"
-            ml="5px"
-            bgColor="teal"
-            width="45px"
-            border="1px solid transparent"
-            borderRadius="8px"
-            type="submit"
-            cursor="pointer"
-            colorScheme="brand"
-            icon={<BiSearchAlt2 fontSize="1.2rem" />}
-          />
+         <FormControl >
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Search 
+              </FormLabel>
+              <CustomInput placeholder="Search by name" />
+            </FormControl>
+            <FormControl >
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Start 
+              </FormLabel>
+              <CustomInput2  />
+            </FormControl>
+            <FormControl >
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                End 
+              </FormLabel>
+              <CustomInput3/>
+            </FormControl>
+          <Button
+            sx={{ width: '30px', marginTop: '22px', height: '42px', borderRadius: '8px' }}
+            variant="contained"
+            onClick={() => history.push(`${parentUrl}/add`)}
+          >
+            <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
+          </Button>
         </Grid>
-        <Grid mt='10px'>
-          <HStack h="40px" w="90px" mr='10px'>
+        <Grid mt="32px" h="42px">
+          <HStack h="100%" w="90px" mr="10px">
             <Button
-              w="100%"
-              h="100%"
-              borderRadius="6px"
-              cursor="pointer"
-              border="1px solid transparent"
-              bgColor="teal"
-              color="white"
-              leftIcon={<BiAddToQueue fontSize="1.5rem" />}
-              colorScheme="brand"
+              sx={{ height: '100%' }}
+              variant="contained"
               onClick={() => history.push(`${parentUrl}/add`)}
+              startIcon={<BiAddToQueue />}
             >
               Add
             </Button>
           </HStack>
         </Grid>
       </Grid>
-      <Box mt="10px" mb='20px' flex="1" overflow="auto">
+      <Box mt="10px" mb="20px" flex="1" overflow="auto">
         <Pagination columns={columns} data={TEACHER_DATA} checkboxSelection />
       </Box>
     </Flex>
