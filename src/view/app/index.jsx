@@ -34,6 +34,7 @@ const Year = DelayImport(import('./setting/year'));
 const Course = DelayImport(import('./setting/course'));
 const Academic = DelayImport(import('./setting/academic'));
 const Assignment = DelayImport(import('./setting/assignment'));
+const Session = DelayImport(import('./setting/session'));
 
 //Setting
 const SystemRole = DelayImport(import('./setting/system-role'));
@@ -71,6 +72,10 @@ const routeItem = [
   {
     path: '/assignment',
     element: <Assignment />,
+  },
+  {
+    path: '/session',
+    element: <Session />,
   },
 ];
 

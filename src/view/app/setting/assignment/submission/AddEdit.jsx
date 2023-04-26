@@ -2,13 +2,11 @@ import { Grid, Text, VStack } from '@chakra-ui/react';
 import { FormControl, FormLabel, Stack, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import React from 'react';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
+import dayjs from 'dayjs';
+import { Box } from '@mui/system';
 import { BiAddToQueue } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
-import Input, { inputClasses } from '@mui/base/Input';
+import Input from '@mui/base/Input';
 import { Popper } from '@mui/base';
 import Select, { selectClasses } from '@mui/base/Select';
 import Option, { optionClasses } from '@mui/base/Option';
@@ -73,151 +71,6 @@ const StyledInputElement = styled('input')(
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
   return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
 });
-
-//Desc
-
-const StyledTextareaElement = styled('textarea', {
-  shouldForwardProp: (prop) =>
-    !['ownerState', 'minRows', 'maxRows'].includes(prop.toString()),
-})(
-  ({ theme }) => `
-    width: 320px;
-    height: 120px;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 12px;
-    border-radius: 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 2px 2px ${
-      theme.palette.mode === 'dark' ? grey[900] : grey[50]
-    };
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${
-        theme.palette.mode === 'dark' ? blue[500] : blue[200]
-      };
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-);
-
-const CustomInputDesc = React.forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input
-      slots={{ input: StyledInputElement, textarea: StyledTextareaElement }}
-      {...props}
-      ref={ref}
-    />
-  );
-});
-
-// Password
-
-const StyledInputRoot = styled('div')(
-  ({ theme }) => `
-  font-family: IBM Plex Sans, sans-serif;
-  font-weight: 400;
-  border-radius: 12px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-
-  &.${inputClasses.focused} {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
-  }
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`,
-);
-
-const StyledInputElementPas = styled('input')(
-  ({ theme }) => `
-  font-size: 0.875rem;
-  font-family: inherit;
-  font-weight: 400;
-  line-height: 1.5;
-  flex-grow: 1;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: inherit;
-  border: none;
-  border-radius: inherit;
-  padding: 12px 12px;
-  outline: 0;
-`,
-);
-
-const IconButton = styled(Button)(
-  ({ theme }) => `
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: inherit;
-  cursor: pointer;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[700]};
-  `,
-);
-
-const InputAdornment = styled('div')`
-  margin: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CustomInputPas = React.forwardRef(function CustomInput(props, ref) {
-  const { slots, ...other } = props;
-  return (
-    <Input
-      slots={{
-        root: StyledInputRoot,
-        input: StyledInputElementPas,
-        ...slots,
-      }}
-      {...other}
-      ref={ref}
-    />
-  );
-});
-
-CustomInput.propTypes = {
-  /**
-   * The components used for each slot inside the InputBase.
-   * Either a string to use a HTML element or a component.
-   * @default {}
-   */
-  slots: PropTypes.shape({
-    input: PropTypes.elementType,
-    root: PropTypes.elementType,
-    textarea: PropTypes.elementType,
-  }),
-};
 
 
 // Select drop down
@@ -347,33 +200,10 @@ const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
 });
 
 export default function AddEdit() {
+  const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
-
-  const [values, setValues] = React.useState({
-    amount: '',
-    password: '',
-    weight: '',
-    weightRange: '',
-    showPassword: false,
-  });
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
 
   return (
     <Box
@@ -393,7 +223,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
-            Create Student
+            Create Assignment
           </Text>
         </Grid>
         <Grid>
@@ -434,10 +264,7 @@ export default function AddEdit() {
               >
                 First Name
               </FormLabel>
-              <CustomInput
-                aria-label="Demo input"
-                placeholder="Please enter first name"
-              />
+              <CustomInput aria-label="Demo input" />
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -450,10 +277,7 @@ export default function AddEdit() {
               >
                 Last Name
               </FormLabel>
-              <CustomInput
-                aria-label="Demo input"
-                placeholder="Please enter last name"
-              />
+              <CustomInput />
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -466,10 +290,7 @@ export default function AddEdit() {
               >
                 ID
               </FormLabel>
-              <CustomInput
-                aria-label="Demo input"
-                placeholder="Please enter ID"
-              />
+              <CustomInput />
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -480,28 +301,28 @@ export default function AddEdit() {
                   color: '#54787d',
                 }}
               >
-                Email
-              </FormLabel>
-              <CustomInput
-                aria-label="Demo input"
-                placeholder="Please enter email"
-              />
-            </FormControl>
-            <FormControl required>
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
-                }}
-              >
-                Select Group
+                Gender
               </FormLabel>
               <CustomSelect defaultValue={1} id="unnamed-select">
-                <StyledOption value={1}>Group A</StyledOption>
-                <StyledOption value={2}>Group B</StyledOption>
-                <StyledOption value={3}>Group C</StyledOption>
+                <StyledOption value={1}>Male</StyledOption>
+                <StyledOption value={2}>Female</StyledOption>
+              </CustomSelect>
+            </FormControl>
+
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Group
+              </FormLabel>
+              <CustomSelect defaultValue={1} id="unnamed-select">
+                <StyledOption value={1}>A</StyledOption>
+                <StyledOption value={2}>B</StyledOption>
               </CustomSelect>
             </FormControl>
             <FormControl required>
@@ -513,26 +334,13 @@ export default function AddEdit() {
                   color: '#54787d',
                 }}
               >
-                Password
+                Mark
               </FormLabel>
-              <CustomInputPas
-                placeholder="Please enter password"
-                id="outlined-adornment-password"
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.password}
-                onChange={handleChange('password')}
-                endAdornment={
-                  <InputAdornment>
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
+              <CustomSelect defaultValue={1} id="unnamed-select">
+                <StyledOption value={1}>turned in</StyledOption>
+                <StyledOption value={2}>not turned in</StyledOption>
+                <StyledOption value={3}>late</StyledOption>
+              </CustomSelect>
             </FormControl>
           </VStack>
         </Grid>

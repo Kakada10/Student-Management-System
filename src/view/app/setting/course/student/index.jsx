@@ -3,7 +3,6 @@ import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import AddEdit from './AddEdit';
 import Assignment from '../assignment';
-import Session from '../session'
 
 export default function Student() {
   const { url } = useRouteMatch();
@@ -12,7 +11,6 @@ export default function Student() {
       <Switch>
         <Route path={`${url}/list`} component={List} />
         <Route path={`${url}/assignment`} component={Assignment} />
-        <Route path={`${url}/session`} component={Session} />
         {/* <Route path={`${url}/list/view/:id`} component={AddEdit} /> */}
         {/* <Route path={`${url}/edit/:id`} component={AddEdit} />
         <Route path={`${url}/assignment`} component={Assignment} /> */}

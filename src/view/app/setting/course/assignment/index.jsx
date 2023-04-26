@@ -2,13 +2,15 @@ import List from './List';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
 import AddEdit from './AddEdit';
-import Submission from './submission'
-import Student from '../student'
+import Submission from '../../assignment/submission';
+import Student from '../student';
 
 export default function Assignment() {
   const { url } = useRouteMatch();
-  const parentUrl = `/${url.split('/')[1]}/${url.split('/')[2]}/${url.split('/')[3]}`
-  // console.log(parentUrl) 
+  const parentUrl = `/${url.split('/')[1]}/${url.split('/')[2]}/${
+    url.split('/')[3]
+  }`;
+  // console.log(parentUrl)
   return (
     <Box>
       <Switch>

@@ -86,9 +86,6 @@ export default function List() {
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const parentUrl = `/${pathname.split('/')[1]}`;
-  const routeUrl = `/${pathname.split('/')[1]}/${pathname.split('/')[2]}/${
-    pathname.split('/')[3]
-  }/${pathname.split('/')[4]}`;
 
   const columns = useMemo(
     () => [
@@ -117,7 +114,9 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${routeUrl}/submission`)}
+              onClick={() =>
+                history.push(`${parentUrl}/view/${original.id}`)
+              }
               variant="ghost"
               color="#78909c"
               cursor="pointer"

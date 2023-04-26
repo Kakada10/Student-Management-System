@@ -5,14 +5,15 @@ import AddEdit from './AddEdit';
 
 export default function Assignment() {
   const { url } = useRouteMatch();
+ 
   return (
     <Box>
       <Switch>
-        <Route path={`${url}`} component={List} />
+        <Route path={`${url}/submission`} component={List} />
         <Route path={`${url}/add`} component={AddEdit} />
-        <Route path={`${url}/submission`} component={AddEdit} />
-        <Route path={`${url}/edit/:id`} component={AddEdit} />
-        <Redirect to={`${url}`} />
+        <Route path={`${url}/list/view`} component={AddEdit} />
+        <Route path={`${url}/edit`} component={AddEdit} />
+        <Redirect to={`${url}/submission`} />
       </Switch>
     </Box>
   );

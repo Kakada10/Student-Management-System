@@ -2,11 +2,11 @@ import { Grid, Text, VStack } from '@chakra-ui/react';
 import { FormControl, FormLabel, Stack, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import React from 'react';
-// import dayjs from 'dayjs';
-// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Box } from '@mui/system';
 import { BiAddToQueue } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -84,6 +84,7 @@ const StyledTextareaElement = styled('textarea', {
 })(
   ({ theme }) => `
     width: 320px;
+    height: 120px;
     font-family: IBM Plex Sans, sans-serif;
     font-size: 0.875rem;
     font-weight: 400;
@@ -252,7 +253,7 @@ const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
 });
 
 export default function AddEdit() {
-//   const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
+  const [value, setValue] = React.useState(dayjs('2022-04-17T15:30'));
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
@@ -261,7 +262,7 @@ export default function AddEdit() {
     <Box
       sx={{
         background: 'white',
-        height: '550px',
+        height: 'full',
         borderRadius: '10px',
         marginBottom: '50px',
       }}
@@ -352,21 +353,21 @@ export default function AddEdit() {
               <CustomInput placeholder="Please enter score" />
             </FormControl>
             <FormControl required>
-              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer
                   components={['DateTimePicker', 'DateTimePicker']}
                 >
                   <DateTimePicker
-                    label="Uncontrolled picker"
+                    label="Start"
                     defaultValue={dayjs('2022-04-17T15:30')}
                   />
                   <DateTimePicker
-                    label="Controlled picker"
+                    label="End"
                     value={value}
                     onChange={(newValue) => setValue(newValue)}
                   />
                 </DemoContainer>
-              </LocalizationProvider> */}
+              </LocalizationProvider>
             </FormControl>
             <FormControl required>
               <FormLabel
