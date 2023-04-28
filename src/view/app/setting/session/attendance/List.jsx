@@ -7,13 +7,14 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Button, styled } from '@mui/material';
+import { Button, styled, Typography } from '@mui/material';
 import React, { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-import Pagination from '../table/Pagination';
-import SESSION from '../table/session.json';
+import Pagination from '../../table/Pagination';
+import ATTENDANCE from '../../table/attendance.json';
 import { useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
+
 import { MdRemoveRedEye } from 'react-icons/md';
 import { Input } from '@mui/base';
 // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
@@ -82,39 +83,45 @@ export default function List() {
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const parentUrl = `/${pathname.split('/')[1]}`;
-
-  //Dropdown
-
+  const routeUrl = `/${pathname.split('/')[1]}/${pathname.split('/')[2]}/${
+    pathname.split('/')[3]
+  }`;
   const columns = useMemo(
     () => [
+      {
+        Header: 'No',
+        accessor: 'no',
+      },
+      {
+        Header: 'First Name',
+        accessor: 'first_name',
+      },
+      {
+        Header: 'Last Name',
+        accessor: 'last_name',
+      },
       {
         Header: 'ID',
         accessor: 'id',
       },
       {
-        Header: 'Title',
-        accessor: 'title',
+        Header: 'Year',
+        accessor: 'year',
       },
       {
-        Header: 'Class',
-        accessor: 'class',
+        Header: 'Group',
+        accessor: 'group',
       },
       {
-        Header: 'Created By',
-        accessor: 'created_by',
-      },
-      {
-        Header: 'Created Date',
-        accessor: 'created_date',
+        Header: 'Mark',
+        accessor: 'mark',
       },
       {
         Header: 'Action',
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-               onClick={() =>
-                history.push(`${parentUrl}/view/${original.id}`)
-              }
+              onClick={() => history.push(`${routeUrl}/list/view`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -204,17 +211,27 @@ export default function List() {
               <Button
                 sx={{ height: '100%' }}
                 variant="contained"
-                onClick={() => history.push(`${parentUrl}/add`)}
+                onClick={() => history.push(`${parentUrl}/list`)}
                 startIcon={<BiAddToQueue />}
               >
-                Add
+                Back
               </Button>
             </HStack>
           </Grid>
         </Box>
       </Grid>
+      <Box>
+        <Typography ml="15px" color="#b5b5c3" variant="body2">
+          Class : Web Development
+        </Typography>
+      </Box>
+      <Box>
+        <Typography ml="15px" color="#b5b5c3" variant="body2">
+          Title : Basic HTML & CSS
+        </Typography>
+      </Box>
       <Box mt="10px" mb="20px" flex="1" overflow="auto">
-        <Pagination columns={columns} data={SESSION} />
+        <Pagination columns={columns} data={ATTENDANCE} />
       </Box>
     </Flex>
   );

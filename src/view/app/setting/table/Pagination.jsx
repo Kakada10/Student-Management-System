@@ -16,7 +16,7 @@ export default function Pagination({ columns, data }) {
     getTableBodyProps,
     headerGroups,
     page,
-    
+
     prepareRow,
   } = useTable(
     {
@@ -28,7 +28,6 @@ export default function Pagination({ columns, data }) {
     },
     usePagination
   );
-
 
   return (
     <Box pos="relative" h="full">
@@ -46,7 +45,9 @@ export default function Pagination({ columns, data }) {
           zIndex="2"
           pos="sticky"
           top="0"
-          color='#668284'
+          fontSize="small"
+          color="#668284"
+          textTransform="uppercase"
         >
           {headerGroups.map((headerGroup) => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -63,7 +64,7 @@ export default function Pagination({ columns, data }) {
             </Tr>
           ))}
         </Thead>
-        <Tbody color='#78909c' fontSize="sm" {...getTableBodyProps()}>
+        <Tbody fontSize='15px' color="#506266" {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
             return (
@@ -78,6 +79,7 @@ export default function Pagination({ columns, data }) {
                 {row.cells.map((cell) => {
                   return (
                     <Td
+                      fontWeight="normal"
                       py="2"
                       style={{ cursor: 'default' }}
                       {...cell.getCellProps()}

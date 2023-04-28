@@ -4,6 +4,7 @@
     "first_name": "Kylian",
     "last_name": "Mbappe",
     "id": "e201812",
+    "year": "3",
     "group": "A",
     "mark": "present"
   },
@@ -12,6 +13,7 @@
     "first_name": "Thiago",
     "last_name": "Messi",
     "id": "e201813",
+    "year": "3",
     "group": "A",
     "mark": "absent"
   },
@@ -20,6 +22,7 @@
     "first_name": "Kim",
     "last_name": "Jennie",
     "id": "e201814",
+    "year": "3",
     "group": "A",
     "mark": "late"
   },
@@ -28,6 +31,7 @@
     "first_name": "Jon",
     "last_name": "Guerriero",
     "id": "e201815",
+    "year": "3",
     "group": "A",
     "mark": "present"
   },
@@ -36,6 +40,7 @@
     "first_name": "Marcellus",
     "last_name": "Wrightam",
     "id": "e201819",
+    "year": "3",
     "group": "A",
     "mark": "present"
   },
@@ -44,6 +49,7 @@
     "first_name": "Raven",
     "last_name": "King",
     "id": "e201833",
+    "year": "3",
     "group": "A",
     "mark": "present"
   }

@@ -2,6 +2,7 @@
   {
     "id": "1",
     "title": "Basic HTML & CSS",
+    "class": "Web Development",
     "created_by": "Mr. Luiz",
     "created_date": "12-April-2023",
     "time_start": "1pm",
@@ -10,6 +11,7 @@
   {
     "id": "2",
     "title": "Basic Javascript",
+    "class": "Web Development",
     "created_by": "Mr. Max",
     "created_date": "13-April-2023",
     "time_start": "4pm",
@@ -18,7 +20,8 @@
   {
     "id": "3",
     "title": "Practice Exercise",
-    "created_by": "Ms. Jennie",
+    "class": "Web Development",
+    "created_by": "Dr. Maxell",
     "created_date": "14-April-2023",
     "time_start": "7am",
     "time_end": "8am"
@@ -26,6 +29,7 @@
   {
     "id": "4",
     "title": "OOP",
+    "class": "Web Development",
     "created_by": "Dr. Albert",
     "created_date": "17-April-2023",
     "time_start": "2pm",
@@ -34,6 +38,7 @@
   {
     "id": "5",
     "title": "React Js",
+    "class": "Web Development",
     "created_by": "Dr. Colt",
     "created_date": "17-April-2023",
     "time_start": "2pm",
