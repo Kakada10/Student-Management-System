@@ -16,7 +16,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { visuallyHidden } from "@mui/utils";
 import { Button, Input } from "@mui/joy";
 import { BiSearch } from "react-icons/bi";
-function createData(id, first_name, last_name, gender, year, group) {
+function createData(id, first_name, last_name, gender, year, group, mark) {
   return {
     id,
     first_name,
@@ -24,20 +24,21 @@ function createData(id, first_name, last_name, gender, year, group) {
     gender,
     year,
     group,
+    mark,
   };
 }
 
 const rows = [
-  createData(1, "Cupcake", "Cupcake", "Male", 3, "A", "33S"),
-  createData(2, "Donut", "Cupcake", "Male", 3, "A"),
-  createData(3, "Eclair", "Cupcake", "Male", 3, "A"),
-  createData(4, "Frozen yoghurt", "Cupcake", "Male", 3, "A"),
-  createData(5, "Gingerbread", "Cupcake", "Male", 3, "A"),
-  createData(6, "Honeycomb", "Cupcake", "Male", 3, "A"),
-  createData(7, "Ice cream sandwich", "Cupcake", "Male", 3, "A"),
-  createData(8, "Jelly Bean", "Cupcake", "Male", 3, "A"),
-  createData(9, "KitKat", "Cupcake", "Male", 3, "A"),
-  createData(10, "Lollipop", "Cupcake", "Male", 3, "A"),
+  createData(1, "Cupcake", "Cupcake", "Male", 3, "A", "present"),
+  createData(2, "Donut", "Cupcake", "Male", 3, "A", "present"),
+  createData(3, "Eclair", "Cupcake", "Male", 3, "A", "absent"),
+  createData(4, "Frozen yoghurt", "Cupcake", "Male", 3, "A", "present"),
+  createData(5, "Gingerbread", "Cupcake", "Male", 3, "A", "absent"),
+  createData(6, "Honeycomb", "Cupcake", "Male", 3, "A", "present"),
+  createData(7, "Ice cream sandwich", "Cupcake", "Male", 3, "A", "present"),
+  createData(8, "Jelly Bean", "Cupcake", "Male", 3, "A", "present"),
+  createData(9, "KitKat", "Cupcake", "Male", 3, "A", "present"),
+  createData(10, "Lollipop", "Cupcake", "Male", 3, "A", "present"),
 ];
 
 function labelDisplayedRows({ from, to, count }) {
@@ -112,6 +113,12 @@ const headCells = [
     numeric: true,
     disablePadding: false,
     label: "Group",
+  },
+  {
+    id: "mark",
+    numeric: true,
+    disablePadding: false,
+    label: "Mark",
   },
   {
     id: "action",
@@ -265,7 +272,7 @@ export default function TableSortAndSelection() {
     <Box mt="20px">
       <Input
         startDecorator={<BiSearch />}
-        sx={{ width: "300px", height: '45px' }}
+        sx={{ width: "300px", height: "45px" }}
         placeholder="Search"
       />
       <Sheet
@@ -309,6 +316,7 @@ export default function TableSortAndSelection() {
                     <td>{row.gender}</td>
                     <td>{row.year}</td>
                     <td>{row.group}</td>
+                    <td>{row.mark}</td>
                     <td>
                       <Box sx={{ display: "flex", gap: 1 }}>
                         <Button size="sm" variant="plain" color="neutral">

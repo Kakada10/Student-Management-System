@@ -1,61 +1,19 @@
 import * as React from "react";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Card from "@mui/joy/Card";
-import CardOverflow from "@mui/joy/CardOverflow";
-import Divider from "@mui/joy/Divider";
-import Typography from "@mui/joy/Typography";
 import { Box, Tab, TabList, Tabs, tabClasses } from "@mui/joy";
-import Navbar from "../navbar/Navbar";
-import { courses } from "../data/Courses";
 import { useParams } from "react-router";
 import TableHover from "../table/tableHover";
+import { Link } from "react-router-dom";
+import SingleCourse from "../navbar/SingleCourse";
 
 export default function CourseDetail() {
   const { id } = useParams();
-  const { image, course_name, creator } = courses[id];
 
   return (
     <Box>
-      <Navbar />
+      <SingleCourse />
       <Box mt="40px" ml="20px">
-        <Card variant="outlined" sx={{ width: 320 }}>
-          <CardOverflow>
-            <AspectRatio ratio="2">
-              <img src={image} loading="lazy" alt="" />
-            </AspectRatio>
-          </CardOverflow>
-          <Typography level="h2" sx={{ fontSize: "md", mt: 2, mb: 2 }}>
-            {course_name}
-          </Typography>
-
-          <Divider />
-          <CardOverflow
-            variant="soft"
-            sx={{
-              display: "flex",
-              gap: 1.5,
-              py: 1.5,
-              px: "var(--Card-padding)",
-              bgcolor: "background.level1",
-            }}
-          >
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              Lectured by
-            </Typography>
-            <Divider orientation="vertical" />
-            <Typography
-              level="body3"
-              sx={{ fontWeight: "md", color: "text.secondary" }}
-            >
-              {creator}
-            </Typography>
-          </CardOverflow>
-        </Card>
         <Box width="30%" mt="5px">
-          <Tabs aria-label="tabs" defaultValue={0}>
+          <Tabs aria-label="tabs">
             <TabList
               variant="plain"
               sx={{
@@ -79,7 +37,16 @@ export default function CourseDetail() {
               }}
             >
               <Tab>All Student</Tab>
-              <Tab>All Session</Tab>
+
+              <Tab>
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to={`/courses/session/${id}`}
+                >
+                  All Session
+                </Link>
+              </Tab>
+
               <Tab>All Assignment</Tab>
             </TabList>
           </Tabs>

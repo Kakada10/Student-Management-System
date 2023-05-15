@@ -59,8 +59,8 @@ export default function App() {
           }}
           variant="outlined"
         >
-          <div>
-            <Typography level="h4" component="h1">
+          <div style={{ textAlign: 'center' }}>
+            <Typography color="primary" level="h4" component="h1">
               <b>Welcome!</b>
             </Typography>
             <Typography level="body2">Sign in to continue.</Typography>
