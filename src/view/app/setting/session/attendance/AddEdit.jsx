@@ -223,7 +223,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
-            Create Assignment
+            Student Info
           </Text>
         </Grid>
         <Grid>
@@ -264,7 +264,7 @@ export default function AddEdit() {
               >
                 First Name
               </FormLabel>
-              <CustomInput aria-label="Demo input" />
+              <CustomInput aria-label="Demo input" placeholder='Kim'/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -277,7 +277,7 @@ export default function AddEdit() {
               >
                 Last Name
               </FormLabel>
-              <CustomInput />
+              <CustomInput placeholder='Jennie'/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -290,7 +290,7 @@ export default function AddEdit() {
               >
                 ID
               </FormLabel>
-              <CustomInput />
+              <CustomInput placeholder='e20180922'/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -322,7 +322,7 @@ export default function AddEdit() {
               >
                 Gender
               </FormLabel>
-              <CustomSelect defaultValue={1} id="unnamed-select">
+              <CustomSelect defaultValue={2} id="unnamed-select">
                 <StyledOption value={1}>Male</StyledOption>
                 <StyledOption value={2}>Female</StyledOption>
               </CustomSelect>

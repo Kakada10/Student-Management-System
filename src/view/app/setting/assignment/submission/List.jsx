@@ -132,7 +132,7 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
+              onClick={() => history.push(`${routeUrl}/list/edit`)}
               variant="ghost"
               cursor="pointer"
               color="#78909c"

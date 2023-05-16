@@ -7,12 +7,7 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  styled,
-} from '@mui/material';
+import { Button, FormControl, FormLabel, styled } from '@mui/material';
 import { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -146,23 +141,16 @@ const StyledInputElement3 = styled('input')(
 );
 
 const CustomInput = forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
-  );
+  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
 });
 
 const CustomInput2 = forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input slots={{ input: StyledInputElement2 }} {...props} ref={ref} />
-  );
+  return <Input slots={{ input: StyledInputElement2 }} {...props} ref={ref} />;
 });
 
 const CustomInput3 = forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input slots={{ input: StyledInputElement3 }} {...props} ref={ref} />
-  );
+  return <Input slots={{ input: StyledInputElement3 }} {...props} ref={ref} />;
 });
-
 
 export default function List() {
   const history = useHistory();
@@ -172,7 +160,6 @@ export default function List() {
 
   const { onOpen: onDeleteModalOpen } = useDisclosure();
   const [selected, setSelected] = useState('');
-
 
   const columns = useMemo(
     () => [
@@ -201,9 +188,7 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/view/${original.id}`)
-              }
+              onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -214,9 +199,7 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/edit/${original.id}`)
-              }
+              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -272,54 +255,28 @@ export default function List() {
           gap="4"
           display="flex"
         >
-         <FormControl >
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
-                }}
-              >
-                Search 
-              </FormLabel>
-              <CustomInput placeholder="Search by name" />
-            </FormControl>
-            <FormControl >
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
-                }}
-              >
-                Start 
-              </FormLabel>
-              <CustomInput2  />
-            </FormControl>
-            <FormControl >
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
-                }}
-              >
-                End 
-              </FormLabel>
-              <CustomInput3/>
-            </FormControl>
+          <FormControl>
+            <CustomInput placeholder="Search by name" />
+          </FormControl>
+          <FormControl>
+            <CustomInput2 placeholder="Start"/>
+          </FormControl>
+          <FormControl>
+            <CustomInput3 placeholder="End"/>
+          </FormControl>
           <Button
-            sx={{ width: '30px', marginTop: '22px', height: '42px', borderRadius: '8px' }}
+            sx={{
+              width: '30px',
+              height: '42px',
+              borderRadius: '8px',
+            }}
             variant="contained"
             onClick={() => history.push(`${parentUrl}/add`)}
           >
             <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
           </Button>
         </Grid>
-        <Grid mt="32px" h="42px">
+        <Grid mt="12px" h="42px">
           <HStack h="100%" w="90px" mr="10px">
             <Button
               sx={{ height: '100%' }}

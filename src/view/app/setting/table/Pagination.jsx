@@ -16,7 +16,6 @@ export default function Pagination({ columns, data }) {
     getTableBodyProps,
     headerGroups,
     page,
-
     prepareRow,
   } = useTable(
     {

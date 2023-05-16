@@ -393,7 +393,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
-            Create Student
+            Create Teacher
           </Text>
         </Grid>
         <Grid>
@@ -494,6 +494,8 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px'
+
                 }}
               >
                 Password

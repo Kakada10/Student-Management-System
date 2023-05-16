@@ -7,7 +7,7 @@ import {
   IconButton,
   useDisclosure,
 } from '@chakra-ui/react';
-import {  Button, styled} from '@mui/material';
+import { Button, FormControl, styled } from '@mui/material';
 import React, { forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
@@ -140,23 +140,16 @@ const StyledInputElement3 = styled('input')(
 );
 
 const CustomInput = forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
-  );
+  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
 });
 
-// const CustomInput2 = forwardRef(function CustomInput(props, ref) {
-//   return (
-//     <InputUnstyled slots={{ input: StyledInputElement2 }} {...props} ref={ref} />
-//   );
-// });
+const CustomInput2 = forwardRef(function CustomInput(props, ref) {
+  return <Input slots={{ input: StyledInputElement2 }} {...props} ref={ref} />;
+});
 
-// const CustomInput3 = forwardRef(function CustomInput(props, ref) {
-//   return (
-//     <InputUnstyled slots={{ input: StyledInputElement3 }} {...props} ref={ref} />
-//   );
-// });
-
+const CustomInput3 = forwardRef(function CustomInput(props, ref) {
+  return <Input slots={{ input: StyledInputElement3 }} {...props} ref={ref} />;
+});
 
 export default function List() {
   const [selected, setSelected] = useState('');
@@ -197,9 +190,7 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/view/${original.id}`)
-              }
+              onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -209,9 +200,7 @@ export default function List() {
               icon={<MdRemoveRedEye size="1.3rem" />}
             />
             <IconButton
-              onClick={() =>
-                history.push(`${parentUrl}/edit/${original.id}`)
-              }
+              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
               variant="ghost"
               cursor="pointer"
               color="#78909c"
@@ -245,55 +234,67 @@ export default function List() {
 
   return (
     <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
-    <Grid
-      as="form"
-      templateColumns="auto max-content"
-      p="3"
-      mb="3"
-      boxShadow="sm"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const formProps = Object.fromEntries(formData);
-        setFilter((prev) => ({
-          ...prev,
-          searchText: formProps.searchText,
-        }));
-      }}
-    >
       <Grid
-        ml="10px"
-        mt="10px"
-        variant="standard"
-        templateColumns="15vw max-content"
-        gap="4"
-        display="flex"
+        as="form"
+        templateColumns="auto max-content"
+        p="3"
+        mb="3"
+        boxShadow="sm"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const formProps = Object.fromEntries(formData);
+          setFilter((prev) => ({
+            ...prev,
+            searchText: formProps.searchText,
+          }));
+        }}
       >
-        <CustomInput aria-label="Demo input" placeholder="Search" />
-        <Button
-          sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
-          variant="contained"
-          onClick={() => history.push(`${parentUrl}/add`)}
+        <Grid
+          ml="10px"
+          mt="10px"
+          variant="standard"
+          templateColumns="15vw max-content"
+          gap="4"
+          display="flex"
         >
-          <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
-        </Button>
-      </Grid>
-      <Grid mt="10px" h="42px">
-        <HStack h="100%" w="90px" mr="10px">
+          <FormControl>
+            <CustomInput placeholder="Search by name" />
+          </FormControl>
+          <FormControl>
+            <CustomInput2 placeholder="Start"/>
+          </FormControl>
+          <FormControl>
+            <CustomInput3 placeholder="End"/>
+          </FormControl>
           <Button
-            sx={{ height: '100%' }}
+            sx={{
+              width: '30px',
+              height: '42px',
+              borderRadius: '8px',
+            }}
             variant="contained"
             onClick={() => history.push(`${parentUrl}/add`)}
-            startIcon={<BiAddToQueue />}
           >
-            Add
+            <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
           </Button>
-        </HStack>
+        </Grid>
+        <Grid mt="10px" h="42px">
+          <HStack h="100%" w="90px" mr="10px">
+            <Button
+              sx={{ height: '100%' }}
+              variant="contained"
+              onClick={() => history.push(`${parentUrl}/add`)}
+              startIcon={<BiAddToQueue />}
+            >
+              Add
+            </Button>
+          </HStack>
+        </Grid>
       </Grid>
-    </Grid>
-    <Box mt="10px" mb="20px" flex="1" overflow="auto">
-      <Pagination columns={columns} data={COURSE} />
-    </Box>
-  </Flex>
+      <Box mt="10px" mb="20px" flex="1" overflow="auto">
+        <Pagination columns={columns} data={COURSE} />
+      </Box>
+    </Flex>
   );
 }

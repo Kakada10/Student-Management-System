@@ -295,6 +295,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px'
                 }}
               >
                 Select Year

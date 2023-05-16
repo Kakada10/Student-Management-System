@@ -134,7 +134,9 @@ const StyledInputRoot = styled('div')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[500]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  box-shadow: 0px 2px 2px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[50]
+  };
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,7 +144,9 @@ const StyledInputRoot = styled('div')(
 
   &.${inputClasses.focused} {
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
   }
 
   &:hover {
@@ -153,7 +157,7 @@ const StyledInputRoot = styled('div')(
   &:focus-visible {
     outline: 0;
   }
-`,
+`
 );
 
 const StyledInputElementPas = styled('input')(
@@ -169,7 +173,7 @@ const StyledInputElementPas = styled('input')(
   border-radius: inherit;
   padding: 12px 12px;
   outline: 0;
-`,
+`
 );
 
 const IconButton = styled(Button)(
@@ -181,7 +185,7 @@ const IconButton = styled(Button)(
   background: inherit;
   cursor: pointer;
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[700]};
-  `,
+  `
 );
 
 const InputAdornment = styled('div')`
@@ -218,7 +222,6 @@ CustomInput.propTypes = {
     textarea: PropTypes.elementType,
   }),
 };
-
 
 // Select drop down
 
@@ -374,7 +377,6 @@ export default function AddEdit() {
     event.preventDefault();
   };
 
-
   return (
     <Box
       sx={{
@@ -494,6 +496,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px',
                 }}
               >
                 Select Group
@@ -511,6 +514,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px',
                 }}
               >
                 Password

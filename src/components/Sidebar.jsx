@@ -8,9 +8,17 @@ import {
   IconButton,
   Image,
   Link,
+  Menu,
+  MenuItem,
+  MenuList,
+  Skeleton,
+  useColorModeValue as mode,
+  SkeletonCircle,
   Spacer,
   Stack,
   Text,
+  useMenuButton,
+  ChakraProvider,
 } from '@chakra-ui/react';
 import image from './asssets';
 import { Box } from '@mui/material';
@@ -20,7 +28,9 @@ import { useHistory, useLocation } from 'react-router';
 import { checkIsActive } from './utils/functions';
 import { getCurrentUrl } from './utils/functions';
 
-import { HiOutlineMenuAlt1 } from 'react-icons/hi';
+import { HiOutlineMenuAlt1, HiSelector } from 'react-icons/hi';
+import { useContext } from 'react';
+import { BiUserCircle } from 'react-icons/bi';
 
 const SidebarContext = createContext('SidebarContext');
 
@@ -81,7 +91,8 @@ export default function Sidebar() {
               pos="absolute"
               top="0"
               left="0"
-              color="teal"
+              bgColor="white"
+              color="#7367f0"
               cursor="pointer"
               border="1px solid transparent"
               onClick={() => setToggle(!toggle)}
@@ -94,7 +105,7 @@ export default function Sidebar() {
                   letterSpacing="wide"
                   whiteSpace="nowrap"
                   fontWeight="semibold"
-                  color="gray.500"
+                  color="#666666"
                   fontSize="1.05rem"
                   capitalize="uppercase"
                 >
@@ -126,7 +137,7 @@ export default function Sidebar() {
                             path !== getCurrentUrl(location) &&
                               history.push(path);
                           }}
-                          icon={icon}
+                          icon={<Box sx={{ ml: '5px' }}>{icon}</Box>}
                           label={
                             <Box ml="5px" mb="1px" fontWeight="normal">
                               {name}
@@ -144,10 +155,121 @@ export default function Sidebar() {
             </Box>
           </Box>
         </Flex>
+        <UserProfile />
       </Flex>
     </SidebarContext.Provider>
   );
 }
+
+const UserProfile = () => {
+  const history = useHistory();
+  // const { collapse, logout } = useContext(SidebarContext);
+  return (
+    <ChakraProvider>
+      <HStack
+        spacing="4"
+        px="2"
+        flexShrink={0}
+        borderTopWidth="1px"
+        p="4"
+      >
+        <Menu>
+          <AccountSwitcherButton /* collapse={collapse} */ />
+          <MenuList
+            shadow="lg"
+            py="2"
+            color={mode('gray.600', 'gray.300')}
+            px="2"
+          >
+            <MenuItem
+              rounded="md"
+              onClick={() => {
+                history.push('/change-password');
+              }}
+            >
+              Change Password
+            </MenuItem>
+            <MenuItem
+              rounded="md"
+              onClick={() => {
+                /* logout(); */
+              }}
+            >
+              Logout
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </HStack>
+    </ChakraProvider>
+  );
+};
+
+const AccountSwitcherButton = () => {
+  // const { collapse, user } = useContext(SidebarContext);
+  const buttonProps = useMenuButton();
+
+  return (
+    <Flex
+      as="button"
+      {...buttonProps}
+      w="full"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      rounded="lg"
+      bg={mode('gray.200', 'gray.600')}
+      borderRadius="6px"
+      p="2"
+      fontSize="md"
+      userSelect="none"
+      cursor="pointer"
+      outline="0"
+      transition="all 0.2s"
+      _active={{ bg: mode('gray.200', 'gray.600') }}
+      _focus={{ shadow: 'outline' }}
+    >
+      <HStack flex="1" spacing="3">
+        <>
+          {
+            /* user.username ?  */ <>
+              <Image
+                h="8"
+                w="8"
+                borderRadius="md"
+                objectFit="cover"
+                /*  src={user.photo} */ fallback={
+                  <BiUserCircle size="1.8rem" />
+                }
+                alt=""
+              />
+
+              {
+                /* !collapse &&  */ <Box textAlign="start">
+                  <Box isTruncated fontWeight="semibold">
+                    {/* {user.username} */}Admin
+                  </Box>
+                </Box>
+              }
+            </> /*  : (
+						<>
+							<SkeletonCircle size="7" />
+							{!collapse && <Skeleton w="5rem" h="1rem"></Skeleton>}
+						</>
+					) */
+          }
+        </>
+      </HStack>
+      {
+        /* !collapse && */ <Box
+          fontSize="lg"
+          color={mode('gray.800', 'gray.400')}
+        >
+          <HiSelector />
+        </Box>
+      }
+    </Flex>
+  );
+};
 
 const NavLink = (props) => {
   const { icon, isActive, label, collapse, ...rest } = props;
@@ -167,11 +289,11 @@ const NavLink = (props) => {
       aria-current={isActive ? 'page' : undefined}
       color="gray.600"
       _hover={{
-        bg: 'teal',
+        bg: '#7367f0',
         color: 'white',
       }}
       _activeLink={{
-        bg: 'teal',
+        bg: '#7367f0',
         color: 'white',
       }}
       {...rest}

@@ -43,7 +43,9 @@ const StyledInputElement = styled('input')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
 
   &:hover {
     border-color: ${blue[400]};
@@ -51,14 +53,16 @@ const StyledInputElement = styled('input')(
 
   &:focus {
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[500] : blue[200]
+    };
   }
 
   // firefox
   &:focus-visible {
     outline: 0;
   }
-`,
+`
 );
 
 const CustomInput = React.forwardRef(function CustomInput(props, ref) {
@@ -106,7 +110,7 @@ const StyledButton = styled('button')(
     content: '▾';
     float: right;
   }
-  `,
+  `
 );
 
 const StyledListbox = styled('ul')(
@@ -123,8 +127,10 @@ const StyledListbox = styled('ul')(
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
-  `,
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
+  `
 );
 
 const StyledOption = styled(Option)(
@@ -161,7 +167,7 @@ const StyledOption = styled(Option)(
     background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
     color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   }
-  `,
+  `
 );
 
 const StyledPopper = styled(Popper)`
@@ -179,12 +185,10 @@ const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
   return <Select {...props} ref={ref} slots={slots} />;
 });
 
-
 export default function AddEdit() {
   const history = useHistory();
   const { pathname } = useLocation();
   const parentUrl = `/${pathname.split('/')[1]}`;
-
 
   return (
     <Box
@@ -193,7 +197,6 @@ export default function AddEdit() {
         height: '800px',
         borderRadius: '10px',
         marginBottom: '50px',
-        
       }}
     >
       <Grid
@@ -247,7 +250,10 @@ export default function AddEdit() {
               >
                 ID
               </FormLabel>
-              <CustomInput aria-label="Demo input" placeholder="Please enter course ID" />
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter course ID"
+              />
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -262,7 +268,7 @@ export default function AddEdit() {
               </FormLabel>
               <CustomInput placeholder="Please enter course name" />
             </FormControl>
-            
+
             <FormControl required>
               <FormLabel
                 sx={{
@@ -270,6 +276,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px',
                 }}
               >
                 Taught By
@@ -289,6 +296,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px',
                 }}
               >
                 Year

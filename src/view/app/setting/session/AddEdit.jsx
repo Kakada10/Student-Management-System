@@ -262,9 +262,9 @@ export default function AddEdit() {
     <Box
       sx={{
         background: 'white',
-        height: 'full',
         borderRadius: '10px',
         marginBottom: '50px',
+        minHeight: '100%',
       }}
     >
       <Grid
@@ -276,7 +276,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
-            Create Assignment
+            Create Session
           </Text>
         </Grid>
         <Grid>
@@ -342,6 +342,7 @@ export default function AddEdit() {
             <FormControl required>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer
+                  sx={{ width: '350px' }}
                   components={['DateTimePicker', 'DateTimePicker']}
                 >
                   <DateTimePicker
@@ -363,25 +364,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
-                }}
-              >
-                Select Course
-              </FormLabel>
-              <CustomSelect defaultValue={1} id="unnamed-select">
-                <StyledOption value={1}>Cloud Computing</StyledOption>
-                <StyledOption value={2}>NLP</StyledOption>
-                <StyledOption value={3}>Blockchain</StyledOption>
-                <StyledOption value={4}>Networking</StyledOption>
-                <StyledOption value={5}>Database</StyledOption>
-              </CustomSelect>
-            </FormControl>
-            <FormControl required>
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
+                  width: '350px',
                 }}
               >
                 Select Year
@@ -392,6 +375,26 @@ export default function AddEdit() {
                 <StyledOption value={3}>3</StyledOption>
                 <StyledOption value={4}>4</StyledOption>
                 <StyledOption value={5}>5</StyledOption>
+              </CustomSelect>
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                  width: '350px',
+                }}
+              >
+                Select Course
+              </FormLabel>
+              <CustomSelect defaultValue={1} id="unnamed-select">
+                <StyledOption value={1}>Cloud Computing</StyledOption>
+                <StyledOption value={2}>NLP</StyledOption>
+                <StyledOption value={3}>Blockchain</StyledOption>
+                <StyledOption value={4}>Networking</StyledOption>
+                <StyledOption value={5}>Database</StyledOption>
               </CustomSelect>
             </FormControl>
           </VStack>

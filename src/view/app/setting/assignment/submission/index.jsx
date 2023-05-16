@@ -12,7 +12,7 @@ export default function Assignment() {
         <Route path={`${url}/submission`} component={List} />
         <Route path={`${url}/add`} component={AddEdit} />
         <Route path={`${url}/list/view`} component={AddEdit} />
-        <Route path={`${url}/edit`} component={AddEdit} />
+        <Route path={`${url}/list/edit`} component={AddEdit} />
         <Redirect to={`${url}/submission`} />
       </Switch>
     </Box>

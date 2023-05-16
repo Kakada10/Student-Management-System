@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Button, styled } from '@mui/material';
-import React, {  useMemo, useState } from 'react';
+import React, {  forwardRef, useMemo, useState } from 'react';
 import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
 import { useHistory, useLocation } from 'react-router-dom';
 import Pagination from '../table/Pagination';
@@ -42,36 +42,41 @@ const grey = {
 
 const StyledInputElement = styled('input')(
   ({ theme }) => `
-  width: 320px;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 12px;
-  border-radius: 12px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[500] : blue[200]};
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`,
+    width: 250px;
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    padding: 12px;
+    border-radius: 12px;
+    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
+    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
+    box-shadow: 0px 4px 30px ${
+      theme.palette.mode === 'dark' ? grey[900] : grey[200]
+    };
+  
+    &:hover {
+      border-color: ${blue[400]};
+    }
+  
+    &:focus {
+      border-color: ${blue[400]};
+      box-shadow: 0 0 0 3px ${
+        theme.palette.mode === 'dark' ? blue[500] : blue[200]
+      };
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `
 );
 
-const CustomInput = React.forwardRef(function CustomInput(props, ref) {
-  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
+const CustomInput = forwardRef(function CustomInput(props, ref) {
+  return (
+    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
+  );
 });
 
 export default function List() {
@@ -169,36 +174,43 @@ export default function List() {
           }));
         }}
       >
-        <Grid
-          ml="10px"
+        <Box
+          borderRadius="8px"
           mt="10px"
-          variant="standard"
-          templateColumns="15vw max-content"
-          gap="4"
+          h="60px"
           display="flex"
+          flexDir="row"
+          justifyContent="space-between"
         >
-          <CustomInput aria-label="Demo input" placeholder="Search" />
-          <Button
-            size="sm"
-            // sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
-            variant="contained"
-            onClick={() => history.push(`${parentUrl}/add`)}
+          <Flex
+            width="100%"
+            ml="10px"
+            variant="standard"
+            templateColumns="15vw max-content"
+            gap="4"
           >
-            <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
-          </Button>
-        </Grid>
-        <Grid mt="10px" h="42px">
-          <HStack h="100%" w="90px" mr="10px">
+            <CustomInput aria-label="Demo input" placeholder="Search" />
             <Button
-              sx={{ height: '100%' }}
+              sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
               variant="contained"
               onClick={() => history.push(`${parentUrl}/add`)}
-              startIcon={<BiAddToQueue />}
             >
-              Add
+              <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
             </Button>
-          </HStack>
-        </Grid>
+          </Flex>
+          <Grid h="42px">
+            <HStack h="100%" w="90px" mr="10px">
+              <Button
+                sx={{ height: '100%' }}
+                variant="contained"
+                onClick={() => history.push(`${parentUrl}/add`)}
+                startIcon={<BiAddToQueue />}
+              >
+                Add
+              </Button>
+            </HStack>
+          </Grid>
+        </Box>
       </Grid>
       <Box mt="10px" mb="20px" flex="1" overflow="auto">
         <Pagination columns={columns} data={YEAR} />

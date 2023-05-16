@@ -79,7 +79,7 @@ const CustomInput = forwardRef(function CustomInput(props, ref) {
 });
 
 export default function List() {
-  const [selected, setSelected] = useState('');
+  const [/* selected */, setSelected] = useState('');
   const { id } = useParams();
   const history = useHistory();
   const { pathname } = useLocation();

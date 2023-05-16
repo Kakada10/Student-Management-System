@@ -1,4 +1,4 @@
-import { Grid, Text, VStack } from '@chakra-ui/react';
+import { Grid, HStack, Text, VStack } from '@chakra-ui/react';
 import { FormControl, FormLabel, Stack, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import React from 'react';
@@ -376,6 +376,7 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
+                  width: '340px',
                 }}
               >
                 Select Year
@@ -386,6 +387,26 @@ export default function AddEdit() {
                 <StyledOption value={3}>3</StyledOption>
                 <StyledOption value={4}>4</StyledOption>
                 <StyledOption value={5}>5</StyledOption>
+              </CustomSelect>
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                  width: '340px',
+                }}
+              >
+                Select Class
+              </FormLabel>
+              <CustomSelect defaultValue={10} id="unnamed-select">
+                <StyledOption value={1}>Web Development</StyledOption>
+                <StyledOption value={2}>Network</StyledOption>
+                <StyledOption value={3}>Database</StyledOption>
+                <StyledOption value={4}>NLP</StyledOption>
+                <StyledOption value={5}>Cloud Computing</StyledOption>
               </CustomSelect>
             </FormControl>
           </VStack>

@@ -223,7 +223,7 @@ export default function AddEdit() {
       >
         <Grid templateColumns="max-content" gap="2" alignContent="center">
           <Text ml="2" fontSize="lg" color="#0b2e59" fontWeight="bold">
-            Create Assignment
+            Student Info
           </Text>
         </Grid>
         <Grid>
@@ -264,7 +264,7 @@ export default function AddEdit() {
               >
                 First Name
               </FormLabel>
-              <CustomInput aria-label="Demo input" />
+              <CustomInput aria-label="Demo input"  placeholder="Khen"/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -277,7 +277,7 @@ export default function AddEdit() {
               >
                 Last Name
               </FormLabel>
-              <CustomInput />
+              <CustomInput placeholder="Jessa"/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -290,7 +290,7 @@ export default function AddEdit() {
               >
                 ID
               </FormLabel>
-              <CustomInput />
+              <CustomInput placeholder="e20189922"/>
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -323,6 +323,25 @@ export default function AddEdit() {
               <CustomSelect defaultValue={1} id="unnamed-select">
                 <StyledOption value={1}>A</StyledOption>
                 <StyledOption value={2}>B</StyledOption>
+              </CustomSelect>
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Year
+              </FormLabel>
+              <CustomSelect defaultValue={1} id="unnamed-select">
+                <StyledOption value={1}>1</StyledOption>
+                <StyledOption value={2}>2</StyledOption>
+                <StyledOption value={2}>3</StyledOption>
+                <StyledOption value={2}>4</StyledOption>
+                <StyledOption value={2}>5</StyledOption>
               </CustomSelect>
             </FormControl>
             <FormControl required>
