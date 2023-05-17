@@ -54,7 +54,7 @@ export default function SessionDetail() {
   return (
     <Box>
       <SingleCourse />
-      <Box display="flex" justifyContent="flex-end" mr="10px">
+      <Box display="flex" m="10px 0 10px 20px">
         <Button
           startDecorator={<BiAddToQueue />}
           onClick={() => setOpen(true)}

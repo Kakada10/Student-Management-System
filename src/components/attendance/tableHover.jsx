@@ -14,7 +14,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { visuallyHidden } from "@mui/utils";
-import { Button, Input } from "@mui/joy";
+import { Button, Input, Modal, ModalDialog, Stack } from "@mui/joy";
 import { BiSearch } from "react-icons/bi";
 function createData(id, first_name, last_name, gender, year, group, mark) {
   return {
@@ -210,6 +210,7 @@ export default function TableSortAndSelection() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -279,7 +280,7 @@ export default function TableSortAndSelection() {
         variant="outlined"
         sx={{
           mt: "15px",
-          width: "90%",
+          width: "99%",
           height: "100%",
           boxShadow: "sm",
           borderRadius: "sm",
@@ -318,12 +319,14 @@ export default function TableSortAndSelection() {
                     <td>{row.group}</td>
                     <td>{row.mark}</td>
                     <td>
-                      <Box sx={{ display: "flex", gap: 1 }}>
-                        <Button size="sm" variant="plain" color="neutral">
+                      <Box sx={{ display: "flex", justifyContent: 'center' }}>
+                        <Button
+                          onClick={() => setOpen(true)}
+                          size="sm"
+                          variant="soft"
+                          color="primary"
+                        >
                           Edit
-                        </Button>
-                        <Button size="sm" variant="soft" color="danger">
-                          Delete
                         </Button>
                       </Box>
                     </td>
@@ -391,6 +394,66 @@ export default function TableSortAndSelection() {
             </tr>
           </tfoot>
         </Table>
+
+        {/* Edit student */}
+        <>
+          <Modal open={open} onClose={() => setOpen(false)}>
+            <ModalDialog
+              aria-labelledby="basic-modal-dialog-title"
+              aria-describedby="basic-modal-dialog-description"
+              sx={{ maxWidth: 500 }}
+            >
+              <Typography id="basic-modal-dialog-title" component="h2">
+                Update student
+              </Typography>
+              <Typography
+                id="basic-modal-dialog-description"
+                textColor="text.tertiary"
+              >
+                Fill in the information of the student.
+              </Typography>
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  setOpen(false);
+                }}
+              >
+                <Stack spacing={2}>
+                  <FormControl>
+                    <FormLabel>First Name</FormLabel>
+                    <Input placeholder="Mac" autoFocus required />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel>Last Name</FormLabel>
+                    <Input placeholder="Alister" required />
+                  </FormControl>
+                  <FormControl sx={{ width: 260 }}>
+                    <FormLabel
+                      id="select-field-demo-label"
+                      htmlFor="select-field-demo-button"
+                    >
+                      Status
+                    </FormLabel>
+                    <Select
+                      defaultValue="dog"
+                      slotProps={{
+                        button: {
+                          id: "select-field-demo-button",
+                          "aria-labelledby":
+                            "select-field-demo-label select-field-demo-button",
+                        },
+                      }}
+                    >
+                      <Option value="dog">present</Option>
+                      <Option value="cat">absent</Option>
+                    </Select>
+                  </FormControl>
+                  <Button type="submit">Submit</Button>
+                </Stack>
+              </form>
+            </ModalDialog>
+          </Modal>
+        </>
       </Sheet>
     </Box>
   );

@@ -7,20 +7,21 @@ import { Link, useParams } from "react-router-dom";
 
 export default function AttendanceList() {
   const { id } = useParams();
+
   return (
     <Box>
       <SingleCourse />
-      <Box mt="40px" ml="20px">
+      <Box mt="20px" ml="20px">
         <Box>
           <Link
             style={{ textDecoration: "none", color: "white" }}
             to={`/courses/session/${id}`}
           >
             <Button
-              size="md"
+              size="lg"
               variant="solid"
               startDecorator={<KeyboardArrowLeft />}
-              color="neutral"
+              color="info"
             >
               Back
             </Button>

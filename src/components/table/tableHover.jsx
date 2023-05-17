@@ -113,12 +113,6 @@ const headCells = [
     disablePadding: false,
     label: "Group",
   },
-  {
-    id: "action",
-    numeric: false,
-    disablePadding: false,
-    label: "Action",
-  },
 ];
 
 function EnhancedTableHead(props) {
@@ -265,14 +259,14 @@ export default function TableSortAndSelection() {
     <Box mt="20px">
       <Input
         startDecorator={<BiSearch />}
-        sx={{ width: "300px", height: '45px' }}
+        sx={{ width: "300px", height: "45px" }}
         placeholder="Search"
       />
       <Sheet
         variant="outlined"
         sx={{
           mt: "15px",
-          width: "90%",
+          width: "99%",
           height: "100%",
           boxShadow: "sm",
           borderRadius: "sm",
@@ -309,23 +303,13 @@ export default function TableSortAndSelection() {
                     <td>{row.gender}</td>
                     <td>{row.year}</td>
                     <td>{row.group}</td>
-                    <td>
-                      <Box sx={{ display: "flex", gap: 1 }}>
-                        <Button size="sm" variant="plain" color="neutral">
-                          Edit
-                        </Button>
-                        <Button size="sm" variant="soft" color="danger">
-                          Delete
-                        </Button>
-                      </Box>
-                    </td>
                   </tr>
                 );
               })}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan={7}>
+              <td colSpan={6}>
                 <Box
                   sx={{
                     display: "flex",
