@@ -1,4 +1,4 @@
-import { Grid, Text, VStack } from '@chakra-ui/react';
+import { Grid, HStack, Text, VStack } from '@chakra-ui/react';
 import { FormControl, FormLabel, Stack, styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import React from 'react';
@@ -423,8 +423,8 @@ export default function AddEdit() {
             </Button>
           </Stack>
         </Grid>
-        <Grid gap="4" p="3">
-          <VStack spacing="25" mb="10px" alignItems="start">
+        <Grid py="2" templateColumns="repeat(3,1fr)" gap="4" px="3">
+          <VStack spacing="6" mb="10px" alignItems="start">
             <FormControl required>
               <FormLabel
                 sx={{
@@ -482,6 +482,22 @@ export default function AddEdit() {
                   color: '#54787d',
                 }}
               >
+                Gender
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter gender"
+              />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
                 Email
               </FormLabel>
               <CustomInput
@@ -496,16 +512,14 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
-                  width: '340px',
                 }}
               >
-                Select Group
+                Address
               </FormLabel>
-              <CustomSelect defaultValue={1} id="unnamed-select">
-                <StyledOption value={1}>Group A</StyledOption>
-                <StyledOption value={2}>Group B</StyledOption>
-                <StyledOption value={3}>Group C</StyledOption>
-              </CustomSelect>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter address"
+              />
             </FormControl>
             <FormControl required>
               <FormLabel
@@ -514,7 +528,23 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
-                  width: '340px',
+                }}
+              >
+                Phone Number
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter phone number"
+              />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                  width: '320px',
                 }}
               >
                 Password
@@ -536,6 +566,76 @@ export default function AddEdit() {
                     </IconButton>
                   </InputAdornment>
                 }
+              />
+            </FormControl>
+          </VStack>
+          <VStack spacing="6">
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Start
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter started year"
+              />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                End
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter end year"
+              />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                  width: '320px',
+                }}
+              >
+                Year
+              </FormLabel>
+              <CustomSelect defaultValue={1} id="unnamed-select">
+                <StyledOption value={1}>1</StyledOption>
+                <StyledOption value={2}>2</StyledOption>
+                <StyledOption value={3}>3</StyledOption>
+                <StyledOption value={4}>4</StyledOption>
+                <StyledOption value={5}>5</StyledOption>
+              </CustomSelect>
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                }}
+              >
+                Group
+              </FormLabel>
+              <CustomInput
+                aria-label="Demo input"
+                placeholder="Please enter group"
               />
             </FormControl>
           </VStack>

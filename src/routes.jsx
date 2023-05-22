@@ -1,16 +1,23 @@
 import React from 'react';
 import App from './view/app';
-import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
-import AuthPage from './auth';
-import { Box } from '@chakra-ui/react';
+import {
+  BrowserRouter,
+  Redirect,
+  Route,
+  Router,
+  Switch,
+} from 'react-router-dom';
+import Login from './auth/login';
+import { Box } from '@mui/material';
 
 export default function Routes() {
   return (
-    <Box>
-      <>
-        {/* <Redirect from="/login" to="/" /> <AuthPage /> */}
-        <App />
-      </>
-    </Box>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={App} />
+        <Redirect to={'/login'} /> <Login />
+      </Switch>
+    </BrowserRouter>
   );
 }

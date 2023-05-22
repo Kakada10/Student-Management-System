@@ -33,8 +33,6 @@ const Teacher = DelayImport(import('./setting/teacher'));
 const Year = DelayImport(import('./setting/year'));
 const Course = DelayImport(import('./setting/course'));
 const Academic = DelayImport(import('./setting/academic'));
-const Assignment = DelayImport(import('./setting/assignment'));
-const Session = DelayImport(import('./setting/session'));
 
 //Setting
 const SystemRole = DelayImport(import('./setting/system-role'));
@@ -61,22 +59,14 @@ const routeItem = [
     path: '/academic',
     element: <Academic />,
   },
-  {
-    path: '/system-role',
-    element: <SystemRole />,
-  },
-  {
-    path: '/user',
-    element: <User />,
-  },
-  {
-    path: '/assignment',
-    element: <Assignment />,
-  },
-  {
-    path: '/session',
-    element: <Session />,
-  },
+  // {
+  //   path: '/system-role',
+  //   element: <SystemRole />,
+  // },
+  // {
+  //   path: '/user',
+  //   element: <User />,
+  // },
 ];
 
 const MotionBox = motion(Box);
@@ -90,7 +80,13 @@ export default function App() {
         <Box display="flex">
           <Sidebar />
         </Box>
-        <Box w={'calc(100% - 18rem)'} p="10" bgColor='#f0f5f8' position="relative" flex="1">
+        <Box
+          w={'calc(100% - 18rem)'}
+          p="10"
+          bgColor="#f0f5f8"
+          position="relative"
+          flex="1"
+        >
           <AnimatePresence mode="wait">
             <Switch location={location} key={location.pathname}>
               {routeItem.map(({ path, element }) => (

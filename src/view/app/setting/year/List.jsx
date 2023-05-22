@@ -1,92 +1,42 @@
 import {
-  Box,
   Center,
   Flex,
   Grid,
-  HStack,
   IconButton,
+  VStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Button, styled } from '@mui/material';
-import React, {  forwardRef, useMemo, useState } from 'react';
-import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useMemo, useState } from 'react';
+import { BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
 import YEAR from '../table/YEAR.json';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { MdRemoveRedEye } from 'react-icons/md';
-import { Input } from '@mui/base';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalClose,
+  Option,
+  Select,
+  Sheet,
+  Typography,
+  selectClasses,
+} from '@mui/joy';
 
-// import SelectControl from '../../../../components/controls/SelectControl';
 
-const blue = {
-  100: '#DAECFF',
-  200: '#b6daff',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-};
-
-const grey = {
-  50: '#f6f8fa',
-  100: '#eaeef2',
-  200: '#d0d7de',
-  300: '#afb8c1',
-  400: '#8c959f',
-  500: '#6e7781',
-  600: '#57606a',
-  700: '#424a53',
-  800: '#32383f',
-  900: '#24292f',
-};
-
-const StyledInputElement = styled('input')(
-  ({ theme }) => `
-    width: 250px;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    padding: 12px;
-    border-radius: 12px;
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-    background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-    border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-    box-shadow: 0px 4px 30px ${
-      theme.palette.mode === 'dark' ? grey[900] : grey[200]
-    };
-  
-    &:hover {
-      border-color: ${blue[400]};
-    }
-  
-    &:focus {
-      border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${
-        theme.palette.mode === 'dark' ? blue[500] : blue[200]
-      };
-    }
-  
-    // firefox
-    &:focus-visible {
-      outline: 0;
-    }
-  `
-);
-
-const CustomInput = forwardRef(function CustomInput(props, ref) {
-  return (
-    <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />
-  );
-});
 
 export default function List() {
-  const history = useHistory();
-  const { pathname } = useLocation();
-  const parentUrl = `/${pathname.split('/')[1]}`;
   const [, setFilter] = useState({ searchText: '' });
 
   const { onOpen: onDeleteModalOpen } = useDisclosure();
-  const [selected, setSelected] = useState('');
+  const [, /* selected */ setSelected] = useState('');
+
+  const [open, setOpen] = React.useState(false);
 
   const columns = useMemo(
     () => [
@@ -115,7 +65,8 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
+              // onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
+              onClick={() => setOpen(true)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -126,7 +77,8 @@ export default function List() {
             />
 
             <IconButton
-              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
+              // onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
+              onClick={() => setOpen(true)}
               variant="ghost"
               cursor="pointer"
               bg="none"
@@ -158,6 +110,87 @@ export default function List() {
 
   return (
     <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
+      {/* Popup */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Sheet
+          variant="outlined"
+          sx={{
+            width: 500,
+            height: 400,
+            borderRadius: 'md',
+            p: 3,
+            boxShadow: 'lg',
+          }}
+        >
+          <ModalClose
+            variant="outlined"
+            sx={{
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+            }}
+          />
+          <Flex mb="10px" justifyContent="space-between" alignItems="center">
+            <Typography level="h4">Create Year</Typography>
+            <Button sx={{ mr: '10px' }} variant="solid">
+              Create
+            </Button>
+          </Flex>
+          <Grid templateColumns="repeat(3,1fr)  " gap="2">
+            <VStack spacing="3">
+              <FormControl sx={{ width: '400px' }}>
+                <FormLabel required>Start</FormLabel>
+                <Input
+                  placeholder="Please enter started year"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>End</FormLabel>
+                <Input
+                  placeholder="Please enter end year"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>Group</FormLabel>
+                <Input
+                  placeholder="Please enter group"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>Year</FormLabel>
+                <Select
+                  placeholder="Select year"
+                  indicator={<KeyboardArrowDown />}
+                  sx={{
+                    width: 400,
+                    [`& .${selectClasses.indicator}`]: {
+                      transition: '0.2s',
+                      [`&.${selectClasses.expanded}`]: {
+                        transform: 'rotate(-180deg)',
+                      },
+                    },
+                  }}
+                >
+                  <Option value="dog">1</Option>
+                  <Option value="cat">2</Option>
+                  <Option value="fish">3</Option>
+                  <Option value="bird">4</Option>
+                  <Option value="bird">5</Option>
+                </Select>
+              </FormControl>
+            </VStack>
+          </Grid>
+        </Sheet>
+      </Modal>
+
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -189,26 +222,26 @@ export default function List() {
             templateColumns="15vw max-content"
             gap="4"
           >
-            <CustomInput aria-label="Demo input" placeholder="Search" />
+            <Input
+              placeholder="Search for…"
+              variant="outlined"
+              color="neutral"
+            />
             <Button
-              sx={{ width: '10px', height: '42px', borderRadius: '8px' }}
-              variant="contained"
-              onClick={() => history.push(`${parentUrl}/add`)}
+              variant="solid"
+              // onClick={() => history.push(`${parentUrl}/add`)}
             >
-              <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
+              <BiSearchAlt2 style={{ width: '90%', height: '90%' }} />
             </Button>
           </Flex>
-          <Grid h="42px">
-            <HStack h="100%" w="90px" mr="10px">
-              <Button
-                sx={{ height: '100%' }}
-                variant="contained"
-                onClick={() => history.push(`${parentUrl}/add`)}
-                startIcon={<BiAddToQueue />}
-              >
-                Add
-              </Button>
-            </HStack>
+          <Grid h="42px" mr="10px">
+            <Button
+              sx={{ width: '75px' }}
+              variant="solid"
+              onClick={() => setOpen(true)}
+            >
+              Add
+            </Button>
           </Grid>
         </Box>
       </Grid>

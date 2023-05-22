@@ -1,18 +1,14 @@
-import {
-  BiBook,
-  BiCalendar,
-  BiChild,
-  BiCodeBlock,
-  BiGroup,
-  BiMale,
-  BiMedal,
-  BiReceipt,
-} from 'react-icons/bi';
-import { HiOutlineAdjustments } from 'react-icons/hi';
+import { BiBook, BiCalendar, BiChild, BiMale, BiMedal } from 'react-icons/bi';
 export const MenuConstants = [
   {
     // name: 'LIST',
     item: [
+      {
+        id: 'academic',
+        name: 'Academic',
+        path: '/academic',
+        icon: <BiMedal />,
+      },
       {
         id: 'years',
         name: 'Year',
@@ -24,24 +20,6 @@ export const MenuConstants = [
         name: 'Course',
         path: '/course',
         icon: <BiBook />,
-      },
-      {
-        id: 'academic',
-        name: 'Academic',
-        path: '/academic',
-        icon: <BiMedal />,
-      },
-      {
-        id: 'assignment',
-        name: 'Assignment',
-        path: '/assignment',
-        icon: <BiReceipt />,
-      },
-      {
-        id: 'session',
-        name: 'Session',
-        path: '/session',
-        icon: <BiCodeBlock />,
       },
     ],
   },
@@ -60,18 +38,18 @@ export const MenuConstants = [
         path: '/student',
         icon: <BiChild />,
       },
-      {
-        id: 'system-roles',
-        name: 'System Roles',
-        path: '/system-role',
-        icon: <HiOutlineAdjustments />,
-      },
-      {
-        id: 'users',
-        name: 'Users',
-        path: '/user',
-        icon: <BiGroup />,
-      },
+      // {
+      //   id: 'system-roles',
+      //   name: 'System Roles',
+      //   path: '/system-role',
+      //   icon: <HiOutlineAdjustments />,
+      // },
+      // {
+      //   id: 'users',
+      //   name: 'Users',
+      //   path: '/user',
+      //   icon: <BiGroup />,
+      // },
     ],
   },
 ];

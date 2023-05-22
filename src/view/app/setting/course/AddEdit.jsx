@@ -268,7 +268,6 @@ export default function AddEdit() {
               </FormLabel>
               <CustomInput placeholder="Please enter course name" />
             </FormControl>
-
             <FormControl required>
               <FormLabel
                 sx={{
@@ -276,20 +275,13 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
-                  width: '340px',
                 }}
               >
-                Taught By
+                Teacher ID
               </FormLabel>
-              <CustomSelect defaultValue={10} id="unnamed-select">
-                <StyledOption value={1}>Mr. Bob</StyledOption>
-                <StyledOption value={2}>Ms. Alice</StyledOption>
-                <StyledOption value={3}>Mr. Jone</StyledOption>
-                <StyledOption value={4}>Dr. Patrick</StyledOption>
-                <StyledOption value={5}>Dr. Max</StyledOption>
-              </CustomSelect>
+              <CustomInput placeholder="Please enter teacher id" />
             </FormControl>
-            <FormControl required>
+            {/* <FormControl required>
               <FormLabel
                 sx={{
                   fontSize: '12px',
@@ -308,7 +300,7 @@ export default function AddEdit() {
                 <StyledOption value={4}>4</StyledOption>
                 <StyledOption value={5}>5</StyledOption>
               </CustomSelect>
-            </FormControl>
+            </FormControl> */}
             <FormControl required>
               <FormLabel
                 sx={{
@@ -318,22 +310,9 @@ export default function AddEdit() {
                   color: '#54787d',
                 }}
               >
-                Start From
+                Year ID
               </FormLabel>
-              <CustomInput placeholder="Please enter started year" />
-            </FormControl>
-            <FormControl required>
-              <FormLabel
-                sx={{
-                  fontSize: '12px',
-                  ml: '2px',
-                  mb: '4px',
-                  color: '#54787d',
-                }}
-              >
-                End
-              </FormLabel>
-              <CustomInput placeholder="Please enter end year" />
+              <CustomInput placeholder="Please enter year id" />
             </FormControl>
           </VStack>
         </Grid>

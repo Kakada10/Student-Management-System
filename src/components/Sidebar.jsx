@@ -11,9 +11,7 @@ import {
   Menu,
   MenuItem,
   MenuList,
-  Skeleton,
   useColorModeValue as mode,
-  SkeletonCircle,
   Spacer,
   Stack,
   Text,
@@ -27,9 +25,9 @@ import { MenuConstants } from './constants/menu';
 import { useHistory, useLocation } from 'react-router';
 import { checkIsActive } from './utils/functions';
 import { getCurrentUrl } from './utils/functions';
+import { NavLink as CustomLink } from 'react-router-dom';
 
 import { HiOutlineMenuAlt1, HiSelector } from 'react-icons/hi';
-import { useContext } from 'react';
 import { BiUserCircle } from 'react-icons/bi';
 
 const SidebarContext = createContext('SidebarContext');
@@ -78,9 +76,9 @@ export default function Sidebar() {
           overflowY="auto"
           px="4"
         >
-          <Box h="3rem" pos="relative" w="full" mb="4">
+          <Box h="3rem" pos="relative" w="full">
             <Fade in={!collapse}>
-              <Center h="3rem">
+              <Center mt="5px" h="3rem">
                 <Image w="50px" src={image.logo} />
               </Center>
             </Fade>
@@ -101,6 +99,7 @@ export default function Sidebar() {
             <Box>
               <Fade in={!collapse}>
                 <Heading
+                  mt="15px"
                   textAlign="center"
                   letterSpacing="wide"
                   whiteSpace="nowrap"
@@ -162,17 +161,11 @@ export default function Sidebar() {
 }
 
 const UserProfile = () => {
-  const history = useHistory();
+  // const history = useHistory();
   // const { collapse, logout } = useContext(SidebarContext);
   return (
     <ChakraProvider>
-      <HStack
-        spacing="4"
-        px="2"
-        flexShrink={0}
-        borderTopWidth="1px"
-        p="4"
-      >
+      <HStack spacing="4" px="2" flexShrink={0} borderTopWidth="1px" p="4">
         <Menu>
           <AccountSwitcherButton /* collapse={collapse} */ />
           <MenuList
@@ -181,22 +174,17 @@ const UserProfile = () => {
             color={mode('gray.600', 'gray.300')}
             px="2"
           >
-            <MenuItem
+            {/* <MenuItem
               rounded="md"
               onClick={() => {
                 history.push('/change-password');
               }}
             >
               Change Password
-            </MenuItem>
-            <MenuItem
-              rounded="md"
-              onClick={() => {
-                /* logout(); */
-              }}
-            >
-              Logout
-            </MenuItem>
+            </MenuItem> */}
+            <CustomLink to='/login'>
+              <MenuItem rounded="md">Logout</MenuItem>
+            </CustomLink>
           </MenuList>
         </Menu>
       </HStack>
@@ -278,7 +266,7 @@ const NavLink = (props) => {
       display="block"
       py="2"
       px="3"
-      height="30px"
+      height="40px"
       width="full"
       minW="max-content"
       borderRadius="6px"
@@ -298,7 +286,7 @@ const NavLink = (props) => {
       }}
       {...rest}
     >
-      <HStack mt="5px" h="20px" spacing="5">
+      <HStack mt="10px" h="20px" spacing="5">
         <Box fontSize="lg">{icon}</Box>
         {!collapse && (
           <Text as="span" fontWeight={'bold'}>

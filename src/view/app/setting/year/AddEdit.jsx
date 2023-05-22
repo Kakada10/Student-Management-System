@@ -295,7 +295,20 @@ export default function AddEdit() {
                   ml: '2px',
                   mb: '4px',
                   color: '#54787d',
-                  width: '340px'
+                }}
+              >
+                Group
+              </FormLabel>
+              <CustomInput placeholder="Please enter group" />
+            </FormControl>
+            <FormControl required>
+              <FormLabel
+                sx={{
+                  fontSize: '12px',
+                  ml: '2px',
+                  mb: '4px',
+                  color: '#54787d',
+                  width: '320px'
                 }}
               >
                 Select Year

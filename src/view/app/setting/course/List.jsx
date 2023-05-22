@@ -1,163 +1,43 @@
 import {
-  Box,
   Center,
   Flex,
   Grid,
-  HStack,
   IconButton,
+  VStack,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Button, FormControl, styled } from '@mui/material';
-import React, { forwardRef, useMemo, useState } from 'react';
-import { BiAddToQueue, BiSearchAlt2 } from 'react-icons/bi';
+import React, { useMemo, useState } from 'react';
+import { BiSearchAlt2 } from 'react-icons/bi';
 import Pagination from '../table/Pagination';
 import COURSE from '../table/COURSE.json';
 
 import { useHistory, useLocation } from 'react-router-dom';
 import { HiOutlinePencilAlt, HiOutlineTrash } from 'react-icons/hi';
 import { MdRemoveRedEye } from 'react-icons/md';
-import { Input } from '@mui/base';
+
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalClose,
+  Sheet,
+  Typography,
+} from '@mui/joy';
 // import InfiniteScrollTable from '../../../../components/Tables/InfiniteScrollTable';
 
-const blue = {
-  100: '#DAECFF',
-  200: '#b6daff',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-};
-
-const grey = {
-  50: '#f6f8fa',
-  100: '#eaeef2',
-  200: '#d0d7de',
-  300: '#afb8c1',
-  400: '#8c959f',
-  500: '#6e7781',
-  600: '#57606a',
-  700: '#424a53',
-  800: '#32383f',
-  900: '#24292f',
-};
-
-const StyledInputElement = styled('input')(
-  ({ theme }) => `
-  width: 250px;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  padding: 12px;
-  border-radius: 12px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 4px 30px ${
-    theme.palette.mode === 'dark' ? grey[900] : grey[200]
-  };
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === 'dark' ? blue[500] : blue[200]
-    };
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
-
-const StyledInputElement2 = styled('input')(
-  ({ theme }) => `
-  width: 80px;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  padding: 12px;
-  border-radius: 12px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 4px 30px ${
-    theme.palette.mode === 'dark' ? grey[900] : grey[200]
-  };
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === 'dark' ? blue[500] : blue[200]
-    };
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
-
-const StyledInputElement3 = styled('input')(
-  ({ theme }) => `
-  width: 80px;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  padding: 12px;
-  border-radius: 12px;
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 4px 30px ${
-    theme.palette.mode === 'dark' ? grey[900] : grey[200]
-  };
-
-  &:hover {
-    border-color: ${blue[400]};
-  }
-
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === 'dark' ? blue[500] : blue[200]
-    };
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
-
-const CustomInput = forwardRef(function CustomInput(props, ref) {
-  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
-});
-
-const CustomInput2 = forwardRef(function CustomInput(props, ref) {
-  return <Input slots={{ input: StyledInputElement2 }} {...props} ref={ref} />;
-});
-
-const CustomInput3 = forwardRef(function CustomInput(props, ref) {
-  return <Input slots={{ input: StyledInputElement3 }} {...props} ref={ref} />;
-});
-
 export default function List() {
-  const [selected, setSelected] = useState('');
+  const [, /* selected */ setSelected] = useState('');
   const history = useHistory();
   const { pathname } = useLocation();
   const { onOpen: onDeleteModalOpen } = useDisclosure();
 
   const parentUrl = `/${pathname.split('/')[1]}`;
+
+  const [open, setOpen] = React.useState(false);
+
   const columns = useMemo(
     () => [
       {
@@ -190,7 +70,7 @@ export default function List() {
         Cell: ({ row: { original } }) => (
           <Center spacing={2} gap="6">
             <IconButton
-              onClick={() => history.push(`${parentUrl}/view/${original.id}`)}
+              onClick={() => setOpen(true)}
               variant="ghost"
               color="#78909c"
               cursor="pointer"
@@ -200,7 +80,7 @@ export default function List() {
               icon={<MdRemoveRedEye size="1.3rem" />}
             />
             <IconButton
-              onClick={() => history.push(`${parentUrl}/edit/${original.id}`)}
+              onClick={() => setOpen(true)}
               variant="ghost"
               cursor="pointer"
               color="#78909c"
@@ -234,6 +114,73 @@ export default function List() {
 
   return (
     <Flex flexDir="column" bg="white" borderRadius="10px" h="full">
+      {/* Popup */}
+      <Modal
+        aria-labelledby="modal-title"
+        aria-describedby="modal-desc"
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Sheet
+          variant="outlined"
+          sx={{
+            width: 500,
+            height: 400,
+            borderRadius: 'md',
+            p: 3,
+            boxShadow: 'lg',
+          }}
+        >
+          <ModalClose
+            variant="outlined"
+            sx={{
+              top: 'calc(-1/4 * var(--IconButton-size))',
+              right: 'calc(-1/4 * var(--IconButton-size))',
+              boxShadow: '0 2px 12px 0 rgba(0 0 0 / 0.2)',
+              borderRadius: '50%',
+              bgcolor: 'background.body',
+            }}
+          />
+          <Flex mb="10px" justifyContent="space-between" alignItems="center">
+            <Typography level="h4">Create Course</Typography>
+            <Button sx={{ mr: '10px' }} variant="solid">
+              Create
+            </Button>
+          </Flex>
+          <Grid templateColumns="repeat(3,1fr)  " gap="2">
+            <VStack spacing="3">
+              <FormControl sx={{ width: '400px' }}>
+                <FormLabel required>ID</FormLabel>
+                <Input
+                  placeholder="Please enter course id"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>Name</FormLabel>
+                <Input
+                  placeholder="Please enter course name"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>Teacher ID</FormLabel>
+                <Input
+                  placeholder="Please enter teacher id"
+                  variant="outlined"
+                  color="neutral"
+                />
+                <FormLabel required>Year ID</FormLabel>
+                <Input
+                  placeholder="Please enter year id"
+                  variant="outlined"
+                  color="neutral"
+                />
+              </FormControl>
+            </VStack>
+          </Grid>
+        </Sheet>
+      </Modal>
+
       <Grid
         as="form"
         templateColumns="auto max-content"
@@ -250,47 +197,55 @@ export default function List() {
           }));
         }}
       >
-        <Grid
-          ml="10px"
+        <Box
+          borderRadius="8px"
           mt="10px"
-          variant="standard"
-          templateColumns="15vw max-content"
-          gap="4"
+          h="60px"
           display="flex"
+          flexDir="row"
+          justifyContent="space-between"
         >
-          <FormControl>
-            <CustomInput placeholder="Search by name" />
-          </FormControl>
-          <FormControl>
-            <CustomInput2 placeholder="Start"/>
-          </FormControl>
-          <FormControl>
-            <CustomInput3 placeholder="End"/>
-          </FormControl>
-          <Button
-            sx={{
-              width: '30px',
-              height: '42px',
-              borderRadius: '8px',
-            }}
-            variant="contained"
-            onClick={() => history.push(`${parentUrl}/add`)}
+          <Flex
+            width="100%"
+            ml="10px"
+            variant="standard"
+            templateColumns="15vw max-content"
+            gap="4"
           >
-            <BiSearchAlt2 style={{ width: '100%', height: '100%' }} />
-          </Button>
-        </Grid>
-        <Grid mt="10px" h="42px">
-          <HStack h="100%" w="90px" mr="10px">
+            <Input
+              placeholder="Search for…"
+              variant="outlined"
+              color="neutral"
+            />
+            <Input
+              sx={{ width: '80px', ml: '5px' }}
+              placeholder="Start"
+              variant="outlined"
+              color="neutral"
+            />
+            <Input
+              sx={{ width: '80px', ml: '5px' }}
+              placeholder="End"
+              variant="outlined"
+              color="neutral"
+            />
             <Button
-              sx={{ height: '100%' }}
-              variant="contained"
-              onClick={() => history.push(`${parentUrl}/add`)}
-              startIcon={<BiAddToQueue />}
+              variant="solid"
+              // onClick={() => history.push(`${parentUrl}/add`)}
+            >
+              <BiSearchAlt2 style={{ width: '90%', height: '90%' }} />
+            </Button>
+          </Flex>
+          <Grid h="42px" mr="10px">
+            <Button
+              sx={{ width: '75px' }}
+              variant="solid"
+              onClick={() => setOpen(true)}
             >
               Add
             </Button>
-          </HStack>
-        </Grid>
+          </Grid>
+        </Box>
       </Grid>
       <Box mt="10px" mb="20px" flex="1" overflow="auto">
         <Pagination columns={columns} data={COURSE} />
